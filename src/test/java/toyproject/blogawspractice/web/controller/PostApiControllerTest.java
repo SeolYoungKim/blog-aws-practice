@@ -59,9 +59,6 @@ class PostApiControllerTest {
                 .author("저자")
                 .build();
 
-        //when
-        postService.savePost(post);
-
         //then
         mockMvc.perform(post("/write")
                         .contentType(APPLICATION_JSON)
@@ -135,6 +132,26 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.[0].title").value("title20"))
                 .andExpect(jsonPath("$.[0].content").value("content20"))
                 .andExpect(jsonPath("$.[0].author").value("author20"))
+                .andDo(print());
+    }
+
+    @DisplayName("검증이 제대로 작동하는지")
+    @Test
+    void validate_post() throws Exception {
+        RequestAddPost requestAddPost = RequestAddPost.builder()
+                .title("제목")
+                .content("")
+                .author("저자")
+                .build();
+
+        mockMvc.perform(post("/write")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestAddPost)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.[0].code").value("404"))
+                .andExpect(jsonPath("$.[0].message").value("잘못된 요청입니다."))
+                .andExpect(jsonPath("$.[0].errors.default_message").value("내용을 입력해주세요."))
+                .andExpect(jsonPath("$.[0].errors.field").value("content"))
                 .andDo(print());
     }
 }
