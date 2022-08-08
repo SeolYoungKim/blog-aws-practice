@@ -3,7 +3,9 @@ package toyproject.blogawspractice.repository.post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import toyproject.blogawspractice.domain.post.Post;
-import toyproject.blogawspractice.domain.post.QPost;
+import toyproject.blogawspractice.web.request.PostSearch;
+
+import java.util.List;
 
 import static toyproject.blogawspractice.domain.post.QPost.post;
 
@@ -31,5 +33,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return jpaQueryFactory.selectFrom(post)
                 .where(post.author.eq(author))
                 .fetchOne();
+    }
+
+    @Override
+    public List<Post> getPostList(PostSearch postSearch) {
+        return jpaQueryFactory.selectFrom(post)
+                .limit(postSearch.getSize())
+                .offset(postSearch.getOffset())
+                .orderBy(post.id.desc())
+                .fetch();
     }
 }

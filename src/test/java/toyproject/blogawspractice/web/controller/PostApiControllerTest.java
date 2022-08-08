@@ -9,10 +9,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.service.PostService;
+import toyproject.blogawspractice.web.request.PostSearch;
 import toyproject.blogawspractice.web.request.RequestAddPost;
 import toyproject.blogawspractice.web.response.ResponsePost;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -99,6 +105,36 @@ class PostApiControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("404"))
                 .andExpect(jsonPath("$.message").value("글이 없습니다."))
+                .andDo(print());
+    }
+
+    @DisplayName("페이징 처리가 잘 되었는지 확인한다.")
+    @Test
+    void get_post_list() throws Exception {
+        //given
+        List<Post> posts = IntStream.range(1, 21)
+                .mapToObj(i -> Post.builder()
+                        .title("title" + i)
+                        .content("content" + i)
+                        .author("author" + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(posts);
+
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .size(5)
+                .build();
+
+        mockMvc.perform(get("/posts")
+                        .contentType(APPLICATION_JSON)
+                        .param("page", "1")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].title").value("title20"))
+                .andExpect(jsonPath("$.[0].content").value("content20"))
+                .andExpect(jsonPath("$.[0].author").value("author20"))
                 .andDo(print());
     }
 }

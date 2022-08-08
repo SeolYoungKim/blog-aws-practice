@@ -6,8 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.post.PostRepository;
+import toyproject.blogawspractice.web.request.PostSearch;
 import toyproject.blogawspractice.web.request.RequestAddPost;
 import toyproject.blogawspractice.web.response.ResponsePost;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,6 +34,11 @@ public class PostService {
         return new ResponsePost(post);
     }
 
-
+    // 여러건 조회 및 페이징
+    public List<ResponsePost> getPostList(PostSearch postSearch) {
+        return postRepository.getPostList(postSearch).stream()
+                .map(ResponsePost::new)
+                .collect(Collectors.toList());
+    }
 }
 
