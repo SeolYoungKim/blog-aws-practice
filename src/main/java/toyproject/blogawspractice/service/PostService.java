@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.web.request.RequestAddPost;
 import toyproject.blogawspractice.web.response.ResponsePost;
@@ -21,6 +22,13 @@ public class PostService {
         return new ResponsePost(post);
     }
 
+    // 단건 조회
+    public ResponsePost readPost(Long id) throws NullPostException {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new NullPostException("글이 없습니다."));
+
+        return new ResponsePost(post);
+    }
 
 
 }
