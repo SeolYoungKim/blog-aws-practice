@@ -24,17 +24,17 @@ public class PostApiController {
         return postService.savePost(requestAddPost);
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/api/post/{id}")
     public ResponsePost readPost(@PathVariable Long id) throws NullPostException {
         return postService.readPost(id);
     }
 
-    @GetMapping("/posts")  // 요청 파라미터로 page와 size를 받는다.
+    @GetMapping("/api/posts")  // 요청 파라미터로 page와 size를 받는다.
     public List<ResponsePost> getPostList(@ModelAttribute PostSearch postSearch) {
         return postService.getPostList(postSearch);
     }
 
-    @PatchMapping("/post/{id}/edit")
+    @PatchMapping("/api/post/{id}/edit")
     public ResponsePost editPost(@PathVariable Long id, @Validated @RequestBody RequestEditPost editPost) throws NullPostException {
         return postService.editPost(id, editPost);
     }

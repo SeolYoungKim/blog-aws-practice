@@ -82,7 +82,7 @@ class PostApiControllerTest {
         ResponsePost responsePost = postService.savePost(post);
 
         //then
-        mockMvc.perform(get("/post/{id}", responsePost.getId())
+        mockMvc.perform(get("/api/post/{id}", responsePost.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("단건조회 제목"))
@@ -95,7 +95,7 @@ class PostApiControllerTest {
     @Test
     void read_post_error() throws Exception {
 
-        mockMvc.perform(get("/post/{id}", "12323")
+        mockMvc.perform(get("/api/post/{id}", "12323")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("404"))
@@ -118,14 +118,38 @@ class PostApiControllerTest {
         postRepository.saveAll(posts);
 
         PostSearch postSearch = PostSearch.builder()
-                .page(1)
-                .size(5)
                 .build();
 
-        mockMvc.perform(get("/posts")
+        mockMvc.perform(get("/api/posts")
                         .contentType(APPLICATION_JSON)
                         .param("page", "1")
                         .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].title").value("title20"))
+                .andExpect(jsonPath("$.[0].content").value("content20"))
+                .andExpect(jsonPath("$.[0].author").value("author20"))
+                .andDo(print());
+    }
+
+    @DisplayName("page랑 size를 넘겨주지 않아도 페이징 처리가 된다.")
+    @Test
+    void get_post_list_noParams() throws Exception {
+        //given
+        List<Post> posts = IntStream.range(1, 21)
+                .mapToObj(i -> Post.builder()
+                        .title("title" + i)
+                        .content("content" + i)
+                        .author("author" + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(posts);
+
+        PostSearch postSearch = PostSearch.builder()
+                .build();
+
+        mockMvc.perform(get("/api/posts")
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].title").value("title20"))
                 .andExpect(jsonPath("$.[0].content").value("content20"))
@@ -169,7 +193,7 @@ class PostApiControllerTest {
                 .content("CONTENT")
                 .build();
 
-        mockMvc.perform(patch("/post/{id}/edit", post.getId())
+        mockMvc.perform(patch("/api/post/{id}/edit", post.getId())
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(editPost)))
                 .andExpect(status().isOk())

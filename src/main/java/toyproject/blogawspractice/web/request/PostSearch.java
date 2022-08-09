@@ -12,12 +12,12 @@ import static java.lang.Math.*;
 public class PostSearch {
 
     @Builder.Default
-    private int page = 1;
+    private Integer page = 1;
 
     @Builder.Default
-    private int size = 5;
+    private Integer size = 5;
 
-    public PostSearch(int page, int size) {
+    public PostSearch(Integer page, Integer size) {
         this.page = page;
         this.size = size;
     }
