@@ -131,32 +131,6 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("page랑 size를 넘겨주지 않아도 페이징 처리가 된다.")
-    @Test
-    void get_post_list_noParams() throws Exception {
-        //given
-        List<Post> posts = IntStream.range(1, 21)
-                .mapToObj(i -> Post.builder()
-                        .title("title" + i)
-                        .content("content" + i)
-                        .author("author" + i)
-                        .build())
-                .collect(Collectors.toList());
-
-        postRepository.saveAll(posts);
-
-        PostSearch postSearch = PostSearch.builder()
-                .build();
-
-        mockMvc.perform(get("/api/posts")
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].title").value("title20"))
-                .andExpect(jsonPath("$.[0].content").value("content20"))
-                .andExpect(jsonPath("$.[0].author").value("author20"))
-                .andDo(print());
-    }
-
     @DisplayName("검증이 제대로 작동하는지")
     @Test
     void validate_post() throws Exception {

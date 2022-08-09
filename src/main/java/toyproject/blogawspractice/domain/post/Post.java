@@ -3,6 +3,7 @@ package toyproject.blogawspractice.domain.post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toyproject.blogawspractice.domain.BaseTimeEntity;
 import toyproject.blogawspractice.web.request.RequestEditPost;
 
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Entity
 @Getter
-public class Post {
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
