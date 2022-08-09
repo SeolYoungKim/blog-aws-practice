@@ -34,8 +34,13 @@ public class PostApiController {
         return postService.getPostList(postSearch);
     }
 
-    @PostMapping("/post/{id}/edit")
+    @PatchMapping("/post/{id}/edit")
     public ResponsePost editPost(@PathVariable Long id, @Validated @RequestBody RequestEditPost editPost) throws NullPostException {
         return postService.editPost(id, editPost);
+    }
+
+    @DeleteMapping("/post/{id}/delete")
+    public String deletePost(@PathVariable Long id) throws NullPostException {
+        return postService.deletePost(id);
     }
 }

@@ -21,11 +21,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -171,7 +169,7 @@ class PostApiControllerTest {
                 .content("CONTENT")
                 .build();
 
-        mockMvc.perform(post("/post/{id}/edit", post.getId())
+        mockMvc.perform(patch("/post/{id}/edit", post.getId())
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(editPost)))
                 .andExpect(status().isOk())
@@ -179,6 +177,24 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.title").value("TITLE"))
                 .andExpect(jsonPath("$.content").value("CONTENT"))
                 .andExpect(jsonPath("$.author").value("저자"))
+                .andDo(print());
+    }
+
+    @DisplayName("글 삭제")
+    @Test
+    void delete_post() throws Exception {
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .author("저자")
+                .build();
+
+        postRepository.save(post);
+
+        mockMvc.perform(delete("/post/{id}/delete", post.getId())
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("글이 삭제되었습니다."))
                 .andDo(print());
     }
 }

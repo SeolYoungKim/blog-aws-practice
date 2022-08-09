@@ -54,5 +54,15 @@ public class PostService {
 
         return new ResponsePost(post);
     }
+
+    // 삭제
+    public String deletePost(Long id) throws NullPostException {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new NullPostException("글이 없습니다."));
+
+        postRepository.delete(post);
+
+        return "글이 삭제되었습니다.";
+    }
 }
 
