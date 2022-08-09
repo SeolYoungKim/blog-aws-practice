@@ -192,7 +192,7 @@ class PostApiControllerTest {
         mockMvc.perform(delete("/post/{id}/delete", post.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("글이 삭제되었습니다."))
+                .andExpect(content().string(String.valueOf(post.getId())))
                 .andDo(print());
     }
 }
