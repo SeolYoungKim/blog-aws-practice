@@ -1,7 +1,6 @@
 package toyproject.blogawspractice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.PostSearch;
 import toyproject.blogawspractice.web.request.RequestAddPost;
+import toyproject.blogawspractice.web.request.RequestEditPost;
 import toyproject.blogawspractice.web.response.ResponsePost;
 
 import java.util.List;
@@ -44,10 +44,10 @@ class PostApiControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @AfterEach
-    void clear() {
-        postRepository.deleteAllInBatch();
-    }
+//    @AfterEach
+//    void clear() {
+//        postRepository.deleteAllInBatch();
+//    }
 
     @DisplayName("글을 저장한다.")
     @Test
@@ -152,6 +152,33 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.[0].message").value("잘못된 요청입니다."))
                 .andExpect(jsonPath("$.[0].errors.default_message").value("내용을 입력해주세요."))
                 .andExpect(jsonPath("$.[0].errors.field").value("content"))
+                .andDo(print());
+    }
+
+    @DisplayName("글 수정")
+    @Test
+    void edit_post() throws Exception {
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .author("저자")
+                .build();
+
+        postRepository.save(post);
+
+        RequestEditPost editPost = RequestEditPost.builder()
+                .title("TITLE")
+                .content("CONTENT")
+                .build();
+
+        mockMvc.perform(post("/post/{id}/edit", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(editPost)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(post.getId()))
+                .andExpect(jsonPath("$.title").value("TITLE"))
+                .andExpect(jsonPath("$.content").value("CONTENT"))
+                .andExpect(jsonPath("$.author").value("저자"))
                 .andDo(print());
     }
 }

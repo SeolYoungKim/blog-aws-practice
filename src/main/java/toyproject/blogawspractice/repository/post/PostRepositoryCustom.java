@@ -13,6 +13,5 @@ public interface PostRepositoryCustom {
 
     Post findByAuthor(String author);
 
-    //TODO: Paging을 위한 메서드 추가
     List<Post> getPostList(PostSearch postSearch);
 }

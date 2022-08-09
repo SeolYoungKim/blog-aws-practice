@@ -3,6 +3,7 @@ package toyproject.blogawspractice.domain.post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toyproject.blogawspractice.web.request.RequestEditPost;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +36,11 @@ public class Post {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    public void edit(RequestEditPost editPost) {
+        this.title = editPost.getTitle();
+        this.content = editPost.getContent();
     }
 }
 

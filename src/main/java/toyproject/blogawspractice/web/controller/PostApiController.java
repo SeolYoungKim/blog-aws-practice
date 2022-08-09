@@ -7,6 +7,7 @@ import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.PostSearch;
 import toyproject.blogawspractice.web.request.RequestAddPost;
+import toyproject.blogawspractice.web.request.RequestEditPost;
 import toyproject.blogawspractice.web.response.ResponsePost;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public class PostApiController {
     @GetMapping("/posts")  // 요청 파라미터로 page와 size를 받는다.
     public List<ResponsePost> getPostList(@ModelAttribute PostSearch postSearch) {
         return postService.getPostList(postSearch);
+    }
+
+    @PostMapping("/post/{id}/edit")
+    public ResponsePost editPost(@PathVariable Long id, @Validated @RequestBody RequestEditPost editPost) throws NullPostException {
+        return postService.editPost(id, editPost);
     }
 }
