@@ -52,6 +52,8 @@ public class Post extends BaseTimeEntity {
     public void edit(RequestEditPost editPost) {
         this.title = editPost.getTitle();
         this.content = editPost.getContent();
+        this.category = editPost.getCategory(); // 글 생성 시점에 카테고리를 지정할 수도 있지만, 글 생성 후에 카테고리를 지정할 수 있음.
     }
+
 }
 
