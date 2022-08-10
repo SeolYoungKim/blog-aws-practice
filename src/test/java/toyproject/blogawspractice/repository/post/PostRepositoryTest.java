@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
-import toyproject.blogawspractice.web.request.PostSearch;
+import toyproject.blogawspractice.web.request.post.PostSearch;
 
 import java.util.List;
 import java.util.stream.Collectors;

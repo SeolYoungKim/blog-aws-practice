@@ -1,14 +1,14 @@
-package toyproject.blogawspractice.web.controller;
+package toyproject.blogawspractice.web.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.PostService;
-import toyproject.blogawspractice.web.request.PostSearch;
-import toyproject.blogawspractice.web.request.RequestAddPost;
-import toyproject.blogawspractice.web.request.RequestEditPost;
-import toyproject.blogawspractice.web.response.ResponsePost;
+import toyproject.blogawspractice.web.request.post.PostSearch;
+import toyproject.blogawspractice.web.request.post.RequestAddPost;
+import toyproject.blogawspractice.web.request.post.RequestEditPost;
+import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 
@@ -41,7 +41,6 @@ public class PostApiController {
 
     @DeleteMapping("/post/{id}/delete")
     public Long deletePost(@PathVariable Long id) throws NullPostException {
-        postService.deletePost(id);
-        return id;
+        return postService.deletePost(id);
     }
 }

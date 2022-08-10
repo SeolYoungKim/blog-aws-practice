@@ -2,6 +2,7 @@ package toyproject.blogawspractice.web.request;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import toyproject.blogawspractice.web.request.post.PostSearch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

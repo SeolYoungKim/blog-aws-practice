@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.service.PostService;
-import toyproject.blogawspractice.web.request.PostSearch;
-import toyproject.blogawspractice.web.request.RequestAddPost;
-import toyproject.blogawspractice.web.request.RequestEditPost;
-import toyproject.blogawspractice.web.response.ResponsePost;
+import toyproject.blogawspractice.web.request.post.PostSearch;
+import toyproject.blogawspractice.web.request.post.RequestAddPost;
+import toyproject.blogawspractice.web.request.post.RequestEditPost;
+import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 import java.util.stream.Collectors;

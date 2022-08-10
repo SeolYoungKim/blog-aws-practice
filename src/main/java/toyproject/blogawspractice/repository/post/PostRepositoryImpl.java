@@ -3,7 +3,7 @@ package toyproject.blogawspractice.repository.post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import toyproject.blogawspractice.domain.post.Post;
-import toyproject.blogawspractice.web.request.PostSearch;
+import toyproject.blogawspractice.web.request.post.PostSearch;
 
 import java.util.List;
 

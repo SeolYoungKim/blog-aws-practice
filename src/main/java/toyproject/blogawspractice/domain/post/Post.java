@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toyproject.blogawspractice.domain.BaseTimeEntity;
-import toyproject.blogawspractice.web.request.RequestEditPost;
+import toyproject.blogawspractice.domain.category.Category;
+import toyproject.blogawspractice.web.request.post.RequestEditPost;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -20,6 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Post extends BaseTimeEntity {
 
     @Id
+    @Column(name = "post_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
@@ -32,11 +33,16 @@ public class Post extends BaseTimeEntity {
     @Column
     private String author;  //TODO: 로그인 한 User의 Id로 대체
 
+    @ManyToOne(cascade = PERSIST, fetch = LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Builder
-    public Post(String title, String content, String author) {
+    public Post(String title, String content, String author, Category category) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.category = category;
     }
 
     public void edit(RequestEditPost editPost) {

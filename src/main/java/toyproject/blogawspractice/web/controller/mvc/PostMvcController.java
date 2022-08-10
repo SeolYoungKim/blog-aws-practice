@@ -1,4 +1,4 @@
-package toyproject.blogawspractice.web.controller;
+package toyproject.blogawspractice.web.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.PostService;
-import toyproject.blogawspractice.web.request.PostSearch;
-import toyproject.blogawspractice.web.response.ResponsePost;
+import toyproject.blogawspractice.web.request.post.PostSearch;
+import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class IndexController {
+public class PostMvcController {
 
     private final PostService postService;
 

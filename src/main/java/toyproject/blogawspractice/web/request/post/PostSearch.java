@@ -1,4 +1,4 @@
-package toyproject.blogawspractice.web.request;
+package toyproject.blogawspractice.web.request.post;
 
 import lombok.Builder;
 import lombok.Getter;

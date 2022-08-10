@@ -1,4 +1,4 @@
-package toyproject.blogawspractice.web.controller;
+package toyproject.blogawspractice.web.controller.api;
 
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
