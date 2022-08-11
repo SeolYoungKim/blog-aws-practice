@@ -1,0 +1,22 @@
+{{>layout/header}}
+
+<h1>카테고리 번호 : {{category.id}}</h1>
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="id">카테고리 번호</label>
+                <input type="text" class="form-control" id="id" value="{{category.id}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">카테고리 이름</label>
+                <input type="text" class="form-control" id="name" value="{{category.name}}">
+            </div>
+        </form>
+        <a href="/categories" role="button" class="btn btn-secondary">취소</a>
+        <button type="button" class="btn btn-primary" id="btn-update-category">수정 완료</button>
+    </div>
+</div>
+
+{{>layout/footer}}

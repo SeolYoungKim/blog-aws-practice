@@ -13,6 +13,19 @@
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" value="{{post.title}}">
             </div>
+            <div>
+                <select class="form-select" aria-label="카테고리">
+                    {{^post.category}}
+                    <option selected>카테고리를 선택하세요.</option>
+                    {{/post.category}}
+                    {{#categoryList}}
+                    <option value="{{name}}">카테고리 이름</option>
+                    {{/categoryList}}
+                    {{#post.category}}
+                    <option selected value="{{post.category.name}}"></option>
+                    {{/post.category}}
+                </select>
+            </div>
             <div class="form-group">
                 <label for="author">저자</label>
                 <input type="text" class="form-control" id="author" value="{{post.author}}" readonly>
@@ -23,7 +36,7 @@
             </div>
         </form>
         <a href="/posts?page=1&size=5" role="button" class="btn btn-secondary">취소</a>
-        <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
+        <button type="button" class="btn btn-primary" id="btn-update-post">수정 완료</button>
     </div>
 </div>
 

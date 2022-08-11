@@ -17,6 +17,18 @@ public class CategoryMvcController {
 
     private final CategoryService categoryService;
 
+    @GetMapping("/category/add")
+    public String addCategory() {
+        return "category/add-category";
+    }
+
+    @GetMapping("/category/{id}/edit")
+    public String editCategory(@PathVariable Long id, Model model) throws NullPostException {
+        ResponseCategory responseCategory = categoryService.readCategory(id);
+        model.addAttribute("category", responseCategory);
+        return "category/edit-category";
+    }
+
     // 단건 조회
     @GetMapping("/category/{id}")
     public String readCategory(@PathVariable Long id, Model model) throws NullPostException {

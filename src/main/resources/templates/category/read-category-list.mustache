@@ -1,0 +1,29 @@
+{{>layout/header}}
+<h1>카테고리 목록</h1>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/write" role="button" class="btn btn-primary">글 등록</a>
+            <a href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+        </div>
+    </div>
+</div>
+<table class="table table-horizontal table-bordered">
+    <thead class="thead-strong">
+    <tr>
+        <th>카테고리 번호</th>
+        <th>카테고리 이름</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    {{#categoryList}}
+        <tr>
+            <td>{{id}}</td>
+            <td><a href="/category/{{id}}">{{name}}</a></td>
+        </tr>
+    {{/categoryList}}
+    </tbody>
+</table>
+
+
+{{>layout/footer}}

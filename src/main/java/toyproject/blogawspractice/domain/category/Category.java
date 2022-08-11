@@ -44,4 +44,9 @@ public class Category extends BaseTimeEntity {
     public void edit(RequestEditCategory editCategory) {
         this.name = editCategory.getName();
     }
+
+    // TODO: 카테고리에 글을 추가하는 기능 구현.
+    //  - 카테고리에 글을 지정해주면(카테고리에 글 추가) post entity의 category도 함께 수정된다.
+    //  - 카테고리에 글 목록을 체크박스화해서 체크하여 전달해주면 post의 category가 수정된다.
+    //  - 이 내용을 카테고리에 구현할지, post entity에 onlyEditCategory로 구현할지 고민중이다.
 }

@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
             <a href="/post/{{post.id}}/edit" role="button" class="btn btn-primary">글 수정</a>
-            <button type="button" class="btn btn-danger" id="btn-delete">글 삭제</button>
+            <button type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
         </div>
     </div>
 </div>
@@ -22,6 +22,18 @@
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title" value="{{post.title}}" readonly>
         </div>
+        {{#post.category}}
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <input type="text" class="form-control" id="category" value="{{post.category.name}}" readonly>
+            </div>
+        {{/post.category}}
+        {{^post.category}}
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <input type="text" class="form-control" id="category" value="카테고리가 없습니다." readonly>
+            </div>
+        {{/post.category}}
         <div class="form-group">
             <label for="author">저자</label>
             <input type="text" class="form-control" id="author" value="{{post.author}}" readonly>
