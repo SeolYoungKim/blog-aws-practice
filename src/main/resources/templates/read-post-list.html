@@ -24,10 +24,10 @@
         </thead>
         <tbody id="tbody">
             <tr th:each="post : ${postList}">
-                <td th:field="${post.id}"></td>
-                <td th:field="${post.title}"><a th:href="@{/post/{id}(id=${post.id})}"></a></td>
-                <td th:field="${post.author}"></td>
-                <td th:field="${post.modifiedDate}"></td>
+                <td th:text="${post.id}"></td>
+                <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                <td th:text="${post.author}"></td>
+                <td th:text="${post.modifiedDate}"></td>
             </tr>
         </tbody>
     </table>

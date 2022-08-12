@@ -1,29 +1,32 @@
-{{>layout/header}}
-<h1>카테고리 목록</h1>
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/write" role="button" class="btn btn-primary">글 등록</a>
-            <a href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <h1>카테고리 목록</h1>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/write" role="button" class="btn btn-primary">글 등록</a>
+                <a href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+            </div>
         </div>
     </div>
-</div>
-<table class="table table-horizontal table-bordered">
-    <thead class="thead-strong">
-    <tr>
-        <th>카테고리 번호</th>
-        <th>카테고리 이름</th>
-    </tr>
-    </thead>
-    <tbody id="tbody">
-    {{#categoryList}}
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
         <tr>
-            <td>{{id}}</td>
-            <td><a href="/category/{{id}}">{{name}}</a></td>
+            <th>카테고리 번호</th>
+            <th>카테고리 이름</th>
         </tr>
-    {{/categoryList}}
-    </tbody>
-</table>
+        </thead>
+        <tbody id="tbody">
+            <tr th:each="category : ${categoryList}">
+                <td th:text="${category.id}"></td>
+                <td><a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}"></a></td>
+            </tr>
+        </tbody>
+    </table>
 
-
-{{>layout/footer}}
+</div>

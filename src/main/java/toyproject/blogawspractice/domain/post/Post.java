@@ -44,9 +44,10 @@ public class Post extends BaseTimeEntity {
         this.author = author;
         this.category = category;
 
-        if (category != null) {
-            category.addPost(this);
-        } // category가 지정된 경우, Category를 post에 넣어주면서, 자동으로 카테고리의 리스트에도 추가
+//        //TODO: 두고두고 잊지 않길. 8시간 삽질의 원흉이다.
+//        if (category != null) {
+//            category.addPost(this);
+//        } // category가 지정된 경우, Category를 post에 넣어주면서, 자동으로 카테고리의 리스트에도 추가
     }
 
     public void edit(RequestEditPost editPost) {

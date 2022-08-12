@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
+import toyproject.blogawspractice.web.request.post.RequestAddPost;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PostRepositoryTest {
 
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
+
+    @Autowired
+    private PostService postService;
 
 //    @AfterEach
 //    void clear() {
@@ -132,18 +137,18 @@ class PostRepositoryTest {
                 .name("카테고리")
                 .build();
 
-        Post post = Post.builder()
+        RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
                 .content("내용")
                 .author("저자")
                 .category(category)
                 .build();
 
-        postRepository.save(post);
+        postService.savePost(post);
 
         assertThat(post.getCategory().getName()).isEqualTo("카테고리");
         assertThat(post.getCategory().getId()).isEqualTo(category.getId());
         assertThat(category.getPostList().size()).isEqualTo(1);
-        assertThat(category.getPostList().get(0)).isEqualTo(post);
+        assertThat(category.getPostList().get(0)).isEqualTo(postRepository.findByTitle("제목"));
     }
 }

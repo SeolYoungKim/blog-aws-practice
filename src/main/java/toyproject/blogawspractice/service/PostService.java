@@ -25,6 +25,11 @@ public class PostService {
     // 저장
     public ResponsePost savePost(RequestAddPost requestAddPost) {
         Post post = postRepository.save(requestAddPost.toEntity());
+
+        if (post.getCategory() != null) {
+            post.getCategory().addPost(post);
+        }
+
         return new ResponsePost(post);
     }
 

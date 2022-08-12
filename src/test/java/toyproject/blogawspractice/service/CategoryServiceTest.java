@@ -25,6 +25,11 @@ class CategoryServiceTest {
     @Autowired CategoryService categoryService;
     @Autowired CategoryRepository categoryRepository;
 
+//    @AfterEach
+//    void clear() {
+//        categoryRepository.deleteAllInBatch();
+//    }
+
     @DisplayName("카테고리가 저장된다.")
     @Test
     void saveCategory() {
@@ -34,10 +39,9 @@ class CategoryServiceTest {
 
         ResponseCategory responseCategory = categoryService.saveCategory(category);
 
-        Category findCategory = categoryRepository.findAll().get(0);
+        List<Category> findCategory = categoryRepository.findAll();
 
-        assertThat(responseCategory.getId()).isEqualTo(findCategory.getId());
-        assertThat(responseCategory.getName()).isEqualTo(findCategory.getName());
+        assertThat(findCategory.size()).isEqualTo(1);
     }
 
     @DisplayName("카테고리가 조회된다.")
