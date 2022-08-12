@@ -1,48 +1,46 @@
-{{>layout/header}}
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
 
-<h1>게시글 번호 : {{post.id}}</h1>
+<div layout:fragment="content">
+    <h1 th:text="${post.id}"></h1>
 
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
-            <a href="/post/{{post.id}}/edit" role="button" class="btn btn-primary">글 수정</a>
-            <button type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
+                <a th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary">글 수정</a>
+                <button type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="col-md-12">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="id">게시글 번호</label>
-            <input type="text" class="form-control" id="id" value="{{post.id}}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" value="{{post.title}}" readonly>
-        </div>
-        {{#post.category}}
+    <div th:object="${post}" class="col-md-12">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="id">게시글 번호</label>
+                <input type="text" class="form-control" id="id" th:field="*{id}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}" readonly>
+            </div>
+
             <div class="form-group">
                 <label for="category">카테고리</label>
-                <input type="text" class="form-control" id="category" value="{{post.category.name}}" readonly>
+                <input type="text" class="form-control" id="category" th:field="*{category.name}" readonly>
             </div>
-        {{/post.category}}
-        {{^post.category}}
+
             <div class="form-group">
-                <label for="category">카테고리</label>
-                <input type="text" class="form-control" id="category" value="카테고리가 없습니다." readonly>
+                <label for="author">저자</label>
+                <input type="text" class="form-control" id="author" th:field="*{author}" readonly>
             </div>
-        {{/post.category}}
-        <div class="form-group">
-            <label for="author">저자</label>
-            <input type="text" class="form-control" id="author" value="{{post.author}}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="content">내용</label>
-            <input type="text" class="form-control" id="content" value="{{post.content}}" readonly>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <input type="text" class="form-control" id="content" th:field="*{content}" readonly>
+            </div>
         </div>
     </div>
-</div>
 
-{{>layout/footer}}
+</div>

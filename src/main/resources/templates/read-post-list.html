@@ -1,31 +1,35 @@
-<h1>글 목록</h1>
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/write" role="button" class="btn btn-primary">글 등록</a>
-            <a href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+    <h1>글 목록</h1>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/write" role="button" class="btn btn-primary">글 등록</a>
+                <a href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+            </div>
         </div>
     </div>
-</div>
-<table class="table table-horizontal table-bordered">
-    <thead class="thead-strong">
-    <tr>
-        <th>게시글 번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>최종 수정일</th>
-    </tr>
-    </thead>
-    <tbody id="tbody">
-    {{#postList}}
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
         <tr>
-            <td>{{id}}</td>
-            <td><a href="/post/{{id}}">{{title}}</a></td>
-            <td>{{author}}</td>
-            <td>{{modifiedDate}}</td>
+            <th>게시글 번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>최종 수정일</th>
         </tr>
-    {{/postList}}
-    </tbody>
-</table>
-
+        </thead>
+        <tbody id="tbody">
+            <tr th:each="post : ${postList}">
+                <td th:field="${post.id}"></td>
+                <td th:field="${post.title}"><a th:href="@{/post/{id}(id=${post.id})}"></a></td>
+                <td th:field="${post.author}"></td>
+                <td th:field="${post.modifiedDate}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
