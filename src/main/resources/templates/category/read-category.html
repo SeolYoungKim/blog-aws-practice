@@ -26,6 +26,22 @@
                 <label for="name">카테고리 이름</label>
                 <input type="text" class="form-control" id="name" th:field="*{name}" readonly>
             </div>
+            <div>
+                <table class="table table-horizontal table-bordered">
+                    <thead class="thead-strong">
+                    <tr>
+                        <th>글 번호</th>
+                        <th>글 제목</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr th:each="post : *{postList}">
+                        <td th:text="${post.id}"></td>
+                        <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

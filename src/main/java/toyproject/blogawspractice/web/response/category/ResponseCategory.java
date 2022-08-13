@@ -11,7 +11,7 @@ public class ResponseCategory {
 
     private final Long id;
     private final String name;
-    private final List<Post> postList;  //TODO: 순환참조 발생 위험 있음.
+    private final List<Post> postList;  //TODO: 순환참조 발생 위험 있음. 아직은 괜찮은듯..?
 
     public ResponseCategory(Category category) {
         this.id = category.getId();
