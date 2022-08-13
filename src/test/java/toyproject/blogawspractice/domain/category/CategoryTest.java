@@ -32,6 +32,8 @@ class CategoryTest {
                 .name("category")
                 .build();
 
+        categoryRepository.save(category);
+
         Post post = Post.builder()
                 .title("title")
                 .content("content")

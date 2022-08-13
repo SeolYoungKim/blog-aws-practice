@@ -27,6 +27,7 @@ public class CategoryService {
     }
 
     // 단건 조회
+    @Transactional(readOnly = true)
     public ResponseCategory readCategory(Long id) throws NullPostException {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("카테고리가 없습니다."));
@@ -35,6 +36,7 @@ public class CategoryService {
     }
 
     // 여러건 조회
+    @Transactional(readOnly = true)
     public List<ResponseCategory> getCategoryList() {
         return categoryRepository.findAll().stream()
                 .map(ResponseCategory::new)

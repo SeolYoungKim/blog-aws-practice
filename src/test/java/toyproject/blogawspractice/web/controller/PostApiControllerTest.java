@@ -1,13 +1,13 @@
 package toyproject.blogawspractice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.service.PostService;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
+//@Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
 class PostApiControllerTest {
@@ -42,10 +42,10 @@ class PostApiControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @AfterEach
-//    void clear() {
-//        postRepository.deleteAllInBatch();
-//    }
+    @BeforeEach
+    void clear() {
+        postRepository.deleteAll();
+    }
 
     @DisplayName("글을 저장한다.")
     @Test
@@ -55,6 +55,7 @@ class PostApiControllerTest {
                 .title("제목")
                 .content("내용")
                 .author("저자")
+                .categoryName("")
                 .build();
 
         //then
@@ -76,6 +77,7 @@ class PostApiControllerTest {
                 .title("단건조회 제목")
                 .content("단건조회 내용")
                 .author("단건조회 저자")
+                .categoryName("")
                 .build();
 
         //when
@@ -165,6 +167,7 @@ class PostApiControllerTest {
         RequestEditPost editPost = RequestEditPost.builder()
                 .title("TITLE")
                 .content("CONTENT")
+                .categoryName("")
                 .build();
 
         mockMvc.perform(patch("/api/post/{id}/edit", post.getId())

@@ -11,7 +11,7 @@ public class ResponseCategory {
 
     private final Long id;
     private final String name;
-    private final List<Post> postList;
+    private final List<Post> postList;  //TODO: 순환참조 발생 위험 있음.
 
     public ResponseCategory(Category category) {
         this.id = category.getId();

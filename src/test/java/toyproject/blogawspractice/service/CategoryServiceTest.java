@@ -1,5 +1,6 @@
 package toyproject.blogawspractice.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +19,16 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional
 @SpringBootTest
 class CategoryServiceTest {
 
     @Autowired CategoryService categoryService;
     @Autowired CategoryRepository categoryRepository;
 
-//    @AfterEach
-//    void clear() {
-//        categoryRepository.deleteAllInBatch();
-//    }
+    @BeforeEach
+    void clear() {
+        categoryRepository.deleteAll();
+    }
 
     @DisplayName("카테고리가 저장된다.")
     @Test
@@ -74,6 +74,7 @@ class CategoryServiceTest {
         assertThat(responseCategories.get(9).getName()).isEqualTo("category10");
     }
 
+    @Transactional
     @DisplayName("카테고리가 수정된다.")
     @Test
     void editCategory() throws NullPostException {
@@ -87,7 +88,7 @@ class CategoryServiceTest {
                 .name("카테고리입니다.")
                 .build();
 
-        ResponseCategory responseCategory = categoryService.editCategory(category.getId(), editCategory);
+        categoryService.editCategory(category.getId(), editCategory);
 
         assertThat(category.getName()).isEqualTo("카테고리입니다.");
     }
