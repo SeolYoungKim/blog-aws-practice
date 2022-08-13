@@ -13,8 +13,10 @@ import toyproject.blogawspractice.web.request.post.RequestAddPost;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
 import toyproject.blogawspractice.web.response.post.ResponsePost;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -57,6 +59,17 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    // 페이지 개수 조회
+    public List<Integer> getPageCount(PostSearch postSearch) {
+        Integer totalPostNumber = postRepository.findAll().size();
+        Integer pageSize = postSearch.getSize();
+        Integer pageCount = totalPostNumber / pageSize + 1;
+
+        return IntStream.range(1, pageCount + 1)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
     // 수정
     public ResponsePost editPost(Long id, RequestEditPost editPost) throws NullPostException {
         Post post = postRepository.findById(id)
@@ -86,6 +99,19 @@ public class PostService {
         postRepository.delete(post);
 
         return id;
+    }
+
+    @PostConstruct
+    public void sampleData() {
+        List<Post> postList = IntStream.range(1, 101)
+                .mapToObj(i -> Post.builder()
+                        .title("title" + i)
+                        .content("content" + i)
+                        .author("author" + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(postList);
     }
 
 }

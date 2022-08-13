@@ -47,7 +47,13 @@ public class PostMvcController {
     @GetMapping("/posts")
     public String getPostList(@ModelAttribute PostSearch postSearch, Model model) {
         List<ResponsePost> postList = postService.getPostList(postSearch);
+        List<Integer> pageCounts = postService.getPageCount(postSearch);
+
         model.addAttribute("postList", postList);
+        model.addAttribute("postSearch", postSearch);
+        model.addAttribute("postPageUpperLimit", postSearch.getPage() + 2);
+        model.addAttribute("postPageLowerLimit", pageCounts.size() - 5);
+        model.addAttribute("pageCounts", pageCounts);
 
         return "read-post-list";
     }

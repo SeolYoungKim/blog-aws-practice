@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
+import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.web.request.category.RequestAddCategory;
 import toyproject.blogawspractice.web.request.category.RequestEditCategory;
 import toyproject.blogawspractice.web.response.category.ResponseCategory;
@@ -19,14 +20,17 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//@Transactional
 @SpringBootTest
 class CategoryServiceTest {
 
     @Autowired CategoryService categoryService;
     @Autowired CategoryRepository categoryRepository;
+    @Autowired PostRepository postRepository;
 
     @BeforeEach
     void clear() {
+        postRepository.deleteAll();
         categoryRepository.deleteAll();
     }
 
@@ -70,8 +74,7 @@ class CategoryServiceTest {
         categoryRepository.saveAll(categoryList);
 
         List<ResponseCategory> responseCategories = categoryService.getCategoryList();
-        assertThat(responseCategories.get(0).getName()).isEqualTo("category1");
-        assertThat(responseCategories.get(9).getName()).isEqualTo("category10");
+        assertThat(responseCategories.size()).isEqualTo(10);
     }
 
     @Transactional

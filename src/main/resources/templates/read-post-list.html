@@ -39,5 +39,47 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <!--버튼은 페이지 시작부터 5개만 노출(page=2 -> 2~6까지 다섯개)-->
+
+        <span th:if="${postSearch.page eq 1}">
+            <a th:text="'<'" role="button" class="btn btn-info"></a>
+        </span>
+        <span th:if="${postSearch.page ne 1}">
+            <a th:href="@{/posts(page=${postSearch.page - 1}, size=${postSearch.size})}"
+               th:text="'<'" role="button" class="btn btn-info"></a>
+        </span>
+
+        <span th:if="${postSearch.page gt 2}">
+            <a th:href="@{/posts(page=1, size=${postSearch.size})}"
+               th:text="1" role="button" class="btn btn-info"></a>
+        </span>
+        <span th:if="${postSearch.page gt 2}">...</span>
+
+        <span th:if="${postSearch.page le postPageLowerLimit}" th:each="num : ${pageCounts}">
+            <a th:if="${((postSearch.page - 2) le num) and (num le postPageUpperLimit)}"
+               th:href="@{/posts(page=${num}, size=${postSearch.size})}"
+               th:text="${num}" role="button" class="btn btn-info"></a>
+        </span>
+        <span th:if="${postSearch.page gt postPageLowerLimit}" th:each="num : ${pageCounts}">
+            <a th:if="${(postSearch.page gt postPageLowerLimit) and (num gt postPageLowerLimit)}"
+               th:href="@{/posts(page=${num}, size=${postSearch.size})}"
+               th:text="${num}" role="button" class="btn btn-info"></a>
+        </span>
+
+        <span th:if="${(pageCounts.size gt 10) and (postSearch.page le postPageLowerLimit)}">...</span>
+        <span th:if="${(pageCounts.size gt 10) and (postSearch.page le postPageLowerLimit)}">
+            <a th:href="@{/posts(page=${pageCounts.size}, size=${postSearch.size})}"
+               th:text="${pageCounts.size}" role="button" class="btn btn-info"></a>
+        </span>
+
+        <span th:if="${postSearch.page eq pageCounts.size}">
+            <a th:text="'>'" role="button" class="btn btn-info"></a>
+        </span>
+        <span th:if="${postSearch.page ne pageCounts.size}">
+            <a th:href="@{/posts(page=${postSearch.page + 1}, size=${postSearch.size})}"
+               th:text="'>'" role="button" class="btn btn-info"></a>
+        </span>
+    </div>
 </div>
 
