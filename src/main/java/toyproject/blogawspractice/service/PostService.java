@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.exception.NullPostException;
+import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
@@ -20,15 +21,23 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
 
     // TODO:Id를 반환하는 게 나을까? 객체를 반환하는 게 나을까? 저장 후 바로 글이 조회가 되어야 하는데, 이럴 때 어떻게 해야할지 고민?
     // 저장
     public ResponsePost savePost(RequestAddPost requestAddPost) {
         Post post = postRepository.save(requestAddPost.toEntity());
 
-        if (post.getCategory() != null) {
-            post.getCategory().addPost(post);
-        }
+        // RequestDto에서 String으로 받아서 여기서 처리해줄까...
+////         여기서 순환 참조가 발생한다.. 이유가 뭘까 ㅠ
+//        if (post.getCategory() != null) {
+//            String name = post.getCategory().getName();
+//            Category category = categoryRepository.findByName(name);
+//            category.addPost(post);
+//
+//        }
+
+
 
         return new ResponsePost(post);
     }

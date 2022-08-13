@@ -17,8 +17,8 @@
                 <div class="form-group">
                     <label>카테고리</label>
                     <select class="form-select" id="category" name="category" aria-label="Select category">
-<!--                        <option selected>카테고리를 선택하세요.</option> TODO: 이거만 넣으면 왜 스택오버플로가 터지는지 알아보자...-->
-                        <option th:each="category : ${categoryList}" th:value="${category}"
+                        <option value="">카테고리를 선택하세요.</option>
+                        <option th:each="category : ${categoryList}" th:value="${category.name}"
                         th:text="${category.name}">카테고리를 선택하세요</option>
                     </select>
                 </div>

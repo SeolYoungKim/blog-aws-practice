@@ -20,6 +20,7 @@ public class RequestAddPost {
     @NotBlank(message = "저자를 입력해주세요.")
     private String author;
 
+    // 이거 그냥 카테고리 이름으로 받아서 처리해보자...
     private Category category;
 
     @Builder

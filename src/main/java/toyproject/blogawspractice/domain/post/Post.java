@@ -10,7 +10,7 @@ import toyproject.blogawspractice.web.request.post.RequestEditPost;
 import javax.persistence.*;
 
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -33,7 +33,7 @@ public class Post extends BaseTimeEntity {
     @Column
     private String author;  //TODO: 로그인 한 User의 Id로 대체
 
-    @ManyToOne(cascade = PERSIST, fetch = LAZY)
+    @ManyToOne(cascade = MERGE, fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
