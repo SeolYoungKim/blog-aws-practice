@@ -7,9 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
+import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +25,9 @@ class PostRepositoryTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private PostService postService;
@@ -137,17 +142,21 @@ class PostRepositoryTest {
                 .name("카테고리")
                 .build();
 
+        categoryRepository.save(category);
+
         RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
                 .content("내용")
                 .author("저자")
-                .category(category)
+                .categoryName("카테고리")
                 .build();
 
-        postService.savePost(post);
+        ResponsePost responsePost = postService.savePost(post);
 
-        assertThat(post.getCategory().getName()).isEqualTo("카테고리");
-        assertThat(post.getCategory().getId()).isEqualTo(category.getId());
+        Post post1 = postRepository.findById(responsePost.getId()).orElse(null);
+
+        assertThat(post1.getCategory().getName()).isEqualTo("카테고리");
+        assertThat(post1.getCategory().getId()).isEqualTo(category.getId());
         assertThat(category.getPostList().size()).isEqualTo(1);
         assertThat(category.getPostList().get(0)).isEqualTo(postRepository.findByTitle("제목"));
     }

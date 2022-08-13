@@ -2,7 +2,6 @@ package toyproject.blogawspractice.web.response.post;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,8 @@ public class ResponsePost {
     private String title;
     private String content;
     private String author;
-    private Category category;
+//    private Category category;  //TODO: 순환참조 발생 이유가 여기였네..
+    private String categoryName;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -25,7 +25,8 @@ public class ResponsePost {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.author = post.getAuthor();
-        this.category = post.getCategory();
+//        this.category = post.getCategory();
+        this.categoryName = post.getCategory() != null? post.getCategory().getName() : "";
         this.modifiedDate = post.getModifiedDate();
         this.createdDate = post.getCreatedDate();
     }

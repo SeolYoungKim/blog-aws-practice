@@ -3,7 +3,6 @@ package toyproject.blogawspractice.web.request.post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 
 import javax.validation.constraints.NotBlank;
@@ -21,14 +20,14 @@ public class RequestAddPost {
     private String author;
 
     // 이거 그냥 카테고리 이름으로 받아서 처리해보자...
-    private Category category;
+    private String categoryName;
 
     @Builder
-    public RequestAddPost(String title, String content, String author, Category category) {
+    public RequestAddPost(String title, String content, String author, String categoryName) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.category = category;
+        this.categoryName = categoryName;
     }
 
     public Post toEntity() {
@@ -36,7 +35,7 @@ public class RequestAddPost {
                 .title(this.title)
                 .content(this.content)
                 .author(this.author)
-                .category(this.category)
+//                .category(this.category)
                 .build();
     }
 }

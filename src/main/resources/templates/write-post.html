@@ -16,7 +16,7 @@
 
                 <div class="form-group">
                     <label>카테고리</label>
-                    <select class="form-select" id="category" name="category" aria-label="Select category">
+                    <select class="form-select" id="categoryName" name="categoryName" aria-label="Select category">
                         <option value="">카테고리를 선택하세요.</option>
                         <option th:each="category : ${categoryList}" th:value="${category.name}"
                         th:text="${category.name}">카테고리를 선택하세요</option>

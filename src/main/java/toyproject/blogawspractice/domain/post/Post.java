@@ -50,10 +50,14 @@ public class Post extends BaseTimeEntity {
 //        } // category가 지정된 경우, Category를 post에 넣어주면서, 자동으로 카테고리의 리스트에도 추가
     }
 
+    public void addCategory(Category category) {
+        this.category = category;
+    }
+
     public void edit(RequestEditPost editPost) {
         this.title = editPost.getTitle();
         this.content = editPost.getContent();
-        this.category = editPost.getCategory(); // 글 생성 시점에 카테고리를 지정할 수도 있지만, 글 생성 후에 카테고리를 지정할 수 있음.
+//        this.category = editPost.getCategory(); // 글 생성 시점에 카테고리를 지정할 수도 있지만, 글 생성 후에 카테고리를 지정할 수 있음.
     }
 
 }

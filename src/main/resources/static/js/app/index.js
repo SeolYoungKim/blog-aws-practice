@@ -16,7 +16,7 @@ var post = {
             title: $('#title').val(),
             author: $('#author').val(),
             content: $('#content').val(),
-            category: $('#category').val()
+            categoryName: $('#categoryName').val()
         };
 
         $.ajax({
@@ -37,7 +37,7 @@ var post = {
         var data = {
             title: $('#title').val(),
             content: $('#content').val(),
-            category: $('#category').val()
+            categoryName: $('#categoryName').val()
         };
 
         var id = $('#id').val();

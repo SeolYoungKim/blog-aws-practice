@@ -3,6 +3,7 @@ package toyproject.blogawspractice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
@@ -27,17 +28,14 @@ public class PostService {
     // 저장
     public ResponsePost savePost(RequestAddPost requestAddPost) {
         Post post = postRepository.save(requestAddPost.toEntity());
+        String categoryName = requestAddPost.getCategoryName();
 
-        // RequestDto에서 String으로 받아서 여기서 처리해줄까...
-////         여기서 순환 참조가 발생한다.. 이유가 뭘까 ㅠ
-//        if (post.getCategory() != null) {
-//            String name = post.getCategory().getName();
-//            Category category = categoryRepository.findByName(name);
-//            category.addPost(post);
-//
-//        }
+        if (!categoryName.isEmpty()) {
+            Category category = categoryRepository.findByName(categoryName);
 
-
+            post.addCategory(category);
+            category.addPost(post);
+        }
 
         return new ResponsePost(post);
     }
@@ -64,7 +62,18 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("글이 없습니다."));
 
-        post.edit(editPost);
+        String categoryName = editPost.getCategoryName();
+
+        if (!categoryName.isEmpty()) {  // 카테고리 수정 로직. 카테고리 값이 빈값이 아니어야만 수행됨.
+            Category category = categoryRepository.findByName(categoryName);
+
+            post.addCategory(category);
+            category.addPost(post);
+        } else {
+            post.addCategory(null);
+        }
+
+        post.edit(editPost);  // 카테고리를 제외한 나머지 수정
 
         return new ResponsePost(post);
     }
