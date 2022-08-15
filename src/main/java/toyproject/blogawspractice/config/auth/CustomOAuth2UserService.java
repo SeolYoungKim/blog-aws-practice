@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import toyproject.blogawspractice.config.auth.dto.OAuthAttributes;
 import toyproject.blogawspractice.config.auth.dto.SessionUser;
+import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.repository.user.UserRepository;
 
@@ -63,7 +64,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.getUserFromEmail(attributes.getUserEmail())
-                .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture()))
+                .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER))
                 .orElse(attributes.toEntity());
 
         return userRepository.save(user);

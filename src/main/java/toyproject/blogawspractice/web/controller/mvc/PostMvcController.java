@@ -29,6 +29,7 @@ public class PostMvcController {
 
         if (user != null) {
             model.addAttribute("userName", user.getUserName());
+            model.addAttribute("userRole", user.getUserRole());
         }
 
         return "index";

@@ -14,10 +14,16 @@
             </div>
         </div>
         <div th:if="${userName}" class="row">
+            <div id="user" th:text="|${userName} 님 어서오세요!|"></div>
+            <div th:text="|ROLE: ${userRole}|"></div>
+            <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+        </div>
+    </div>
+    <br>
+    <div th:if="${userName}" class="col-md-12">
+        <div class="row">
             <div class="col-md-6">
                 <!--TODO: 로그인기능 구현 시, 세션이 있을 때만 아래 버튼 출력하도록 변경-->
-                Login as : <span id="user" th:text="${userName}"></span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
                 <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
                 <a href="/categories" role="button" class="btn btn-success">카테고리 목록</a>
             </div>
