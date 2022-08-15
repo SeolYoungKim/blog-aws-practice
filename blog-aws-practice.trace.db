@@ -1,3 +1,0 @@
-2022-08-11 23:38:39 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "POST" not found; SQL statement:
-alter table post drop foreign key FKg6l1ydp1pwkmyj166teiuov1b [42102-214]

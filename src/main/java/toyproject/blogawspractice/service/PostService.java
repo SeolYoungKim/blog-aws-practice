@@ -13,7 +13,6 @@ import toyproject.blogawspractice.web.request.post.RequestAddPost;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
 import toyproject.blogawspractice.web.response.post.ResponsePost;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -101,17 +100,17 @@ public class PostService {
         return id;
     }
 
-    @PostConstruct
-    public void sampleData() {
-        List<Post> postList = IntStream.range(1, 101)
-                .mapToObj(i -> Post.builder()
-                        .title("title" + i)
-                        .content("content" + i)
-                        .author("author" + i)
-                        .build())
-                .collect(Collectors.toList());
-
-        postRepository.saveAll(postList);
-    }
+//    @PostConstruct
+//    public void sampleData() {
+//        List<Post> postList = IntStream.range(1, 101)
+//                .mapToObj(i -> Post.builder()
+//                        .title("title" + i)
+//                        .content("content" + i)
+//                        .author("author" + i)
+//                        .build())
+//                .collect(Collectors.toList());
+//
+//        postRepository.saveAll(postList);
+//    }
 
 }

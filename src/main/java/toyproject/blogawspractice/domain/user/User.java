@@ -3,6 +3,7 @@ package toyproject.blogawspractice.domain.user;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toyproject.blogawspractice.domain.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -13,10 +14,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 

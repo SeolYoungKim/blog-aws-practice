@@ -6,9 +6,18 @@
 <div layout:fragment="content">
     <h1>블로그 구현하기 Ver.1</h1>
     <div class="col-md-12">
+        <div th:if="${userName == null}" class="row">
+            <div class="col-md-6">
+                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+                <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
+                <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
+            </div>
+        </div>
         <div th:if="${userName}" class="row">
             <div class="col-md-6">
                 <!--TODO: 로그인기능 구현 시, 세션이 있을 때만 아래 버튼 출력하도록 변경-->
+                Login as : <span id="user" th:text="${userName}"></span>
+                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
                 <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
                 <a href="/categories" role="button" class="btn btn-success">카테고리 목록</a>
             </div>

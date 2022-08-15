@@ -15,7 +15,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.ofNullable(jpaQueryFactory.selectFrom(user)
+        return Optional.ofNullable(
+                jpaQueryFactory.selectFrom(user)
                 .where(user.email.eq(email))
                 .fetchOne());
     }
