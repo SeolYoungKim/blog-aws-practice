@@ -28,7 +28,7 @@ public class PostMvcController {
     public String home(Model model, @LoginUser SessionUser user) {  // 로그인 화면 구성 - 로그인 버튼
 
         if (user != null) {
-            model.addAttribute("userName", user.getName());
+            model.addAttribute("userName", user.getUserName());
         }
 
         return "index";

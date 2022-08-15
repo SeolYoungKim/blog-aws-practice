@@ -14,10 +14,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> getUserFromEmail(String email) {
         return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(user)
-                .where(user.email.eq(email))
+                .where(user.userEmail.eq(email))
                 .fetchOne());
     }
 }

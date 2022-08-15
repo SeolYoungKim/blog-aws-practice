@@ -11,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 //TODO: Post와 User를 다대일 매핑해야 하지 않을까? 이에 대한 ERD를 작성해보자!
 
+@Table(name = "Users")
 @Getter
 @NoArgsConstructor
 @Entity
@@ -21,35 +22,35 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String name;  // TODO: Post entity의 작성자 이름에 들어갈 내용이다.
+    private String username;  // TODO: Post entity의 작성자 이름에 들어갈 내용이다.
 
     @Column(nullable = false)
-    private String email;
+    private String userEmail;
 
     @Column
-    private String picture;
+    private String userPicture;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private Role userRole;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
-        this.name = name;
-        this.email = email;
-        this.picture = picture;
-        this.role = role;
+    public User(String username, String userEmail, String userPicture, Role userRole) {
+        this.username = username;
+        this.userEmail = userEmail;
+        this.userPicture = userPicture;
+        this.userRole = userRole;
     }
 
     public User update(String name, String picture) {
-        this.name = name;
-        this.picture = picture;
+        this.username = name;
+        this.userPicture = picture;
 
         return this;
     }
 
     // Role의 key를 얻음 > ROLE_USER...
     public String getRoleKey() {
-        return role.getKey();
+        return userRole.getKey();
     }
 }
