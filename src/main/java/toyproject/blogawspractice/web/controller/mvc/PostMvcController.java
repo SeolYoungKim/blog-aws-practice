@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import toyproject.blogawspractice.config.auth.LoginUser;
+import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.CategoryService;
 import toyproject.blogawspractice.service.PostService;
@@ -23,7 +25,12 @@ public class PostMvcController {
     private final CategoryService categoryService;
 
     @GetMapping("/")
-    public String home() {  // 로그인 화면 구성 - 로그인 버튼
+    public String home(Model model, @LoginUser SessionUser user) {  // 로그인 화면 구성 - 로그인 버튼
+
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
+
         return "index";
     }
 

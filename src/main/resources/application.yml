@@ -12,7 +12,13 @@ spring:
     web:
       pageable:
         default-page-size: 10
-
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+    store-type: jdbc
+  profiles:
+    include: oauth
 # mustache 한글 깨짐 방지
 server:
   servlet:
