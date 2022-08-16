@@ -14,6 +14,7 @@ import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
+import toyproject.blogawspractice.domain.user.WithMockCustomUser;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.service.PostService;
@@ -56,22 +57,23 @@ class PostApiControllerTest {
         postRepository.deleteAll();
     }
 
+    @WithMockCustomUser
     @DisplayName("글을 저장한다.")
     @Test
     void save_post() throws Exception {
         //given
-        User user = User.builder()
+        User user1 = User.builder()
                 .userRole(Role.USER)
                 .userPicture("picture")
                 .userEmail("email")
                 .username("kim")
                 .build();
 
-        userRepository.save(user);
+
+        userRepository.save(user1);
 
         MockHttpSession mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("user", new SessionUser(user));
-
+        mockHttpSession.setAttribute("user", new SessionUser(user1));
 
         RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
