@@ -79,34 +79,47 @@ public class PostService {
     }
 
     // 수정
-    public ResponsePost editPost(Long id, RequestEditPost editPost) throws NullPostException {
+    public ResponsePost editPost(Long id, RequestEditPost editPost, SessionUser user) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("글이 없습니다."));
 
         String categoryName = editPost.getCategoryName();
 
-        if (!categoryName.isEmpty()) {  // 카테고리 수정 로직. 카테고리 값이 빈값이 아니어야만 수행됨.
-            Category category = categoryRepository.findByName(categoryName);
+        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
-            post.addCategory(category);
-            category.addPost(post);
+        if (post.getUser() == findUser) {
+            if (!categoryName.isEmpty()) {  // 카테고리 수정 로직. 카테고리 값이 빈값이 아니어야만 수행됨.
+                Category category = categoryRepository.findByName(categoryName);
+
+                post.addCategory(category);
+                category.addPost(post);
+            } else {
+                post.addCategory(null);  // 카테고리 값이 비었으면 카테고리에 null 할당.
+            }
+
+            post.edit(editPost);  // 카테고리를 제외한 나머지 수정
+
+            return new ResponsePost(post);
         } else {
-            post.addCategory(null);  // 카테고리 값이 비었으면 카테고리에 null 할당.
+            throw new IllegalAccessException("잘못된 접근입니다.");
         }
-
-        post.edit(editPost);  // 카테고리를 제외한 나머지 수정
-
-        return new ResponsePost(post);
     }
 
     // 삭제
-    public Long deletePost(Long id) throws NullPostException {
+    public Long deletePost(Long id, SessionUser user) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("글이 없습니다."));
 
-        postRepository.delete(post);
+        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
-        return id;
+        if (post.getUser() == findUser) {
+            postRepository.delete(post);
+            return id;
+        } else {
+            throw new IllegalAccessException("잘못된 접근입니다.");
+        }
     }
 
 //    @PostConstruct

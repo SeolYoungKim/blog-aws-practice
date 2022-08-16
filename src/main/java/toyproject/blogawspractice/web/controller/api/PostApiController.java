@@ -38,12 +38,15 @@ public class PostApiController {
     }
 
     @PatchMapping("/api/post/{id}/edit")
-    public ResponsePost editPost(@PathVariable Long id, @Validated @RequestBody RequestEditPost editPost) throws NullPostException {
-        return postService.editPost(id, editPost);
+    public ResponsePost editPost(@PathVariable Long id,
+                                 @Validated @RequestBody RequestEditPost editPost,
+                                 @LoginUser SessionUser user) throws Exception {
+        return postService.editPost(id, editPost, user);
     }
 
     @DeleteMapping("/post/{id}/delete")
-    public Long deletePost(@PathVariable Long id) throws NullPostException {
-        return postService.deletePost(id);
+    public Long deletePost(@PathVariable Long id,
+                           @LoginUser SessionUser user) throws Exception {
+        return postService.deletePost(id, user);
     }
 }

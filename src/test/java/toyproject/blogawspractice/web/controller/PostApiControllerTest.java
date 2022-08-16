@@ -191,6 +191,7 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
+    @WithMockCustomUser
     @DisplayName("글 수정")
     @Test
     void edit_post() throws Exception {
@@ -229,6 +230,7 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
+    @WithMockCustomUser
     @DisplayName("글 삭제")
     @Test
     void delete_post() throws Exception {
