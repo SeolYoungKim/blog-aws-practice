@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toyproject.blogawspractice.domain.BaseTimeEntity;
 import toyproject.blogawspractice.domain.category.Category;
+import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
 
 import javax.persistence.*;
@@ -29,19 +30,24 @@ public class Post extends BaseTimeEntity {
     @Column
     private String content;
 
-    @Column
-    private String author;  //TODO: 로그인 한 User의 Id로 대체
+//    @Column
+//    private String author;  //TODO: 로그인 한 User의 Id로 대체
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
-    public Post(String title, String content, String author, Category category) {
+    public Post(String title, String content, Category category, User user) {
         this.title = title;
         this.content = content;
-        this.author = author;
+//        this.author = author;
         this.category = category;
+        this.user = user;
 
 //        //TODO: 두고두고 잊지 않길. 8시간 삽질의 원흉이다.
 //        if (category != null) {
@@ -51,6 +57,10 @@ public class Post extends BaseTimeEntity {
 
     public void addCategory(Category category) {
         this.category = category;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
     }
 
     public void edit(RequestEditPost editPost) {

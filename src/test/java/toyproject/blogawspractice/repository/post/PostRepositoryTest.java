@@ -5,9 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.domain.user.Role;
+import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
+import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
@@ -27,6 +31,9 @@ class PostRepositoryTest {
     private PostRepository postRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
@@ -44,7 +51,6 @@ class PostRepositoryTest {
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .build();
 
         postRepository.save(post);
@@ -63,7 +69,6 @@ class PostRepositoryTest {
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .build();
 
         postRepository.save(post);
@@ -76,23 +81,32 @@ class PostRepositoryTest {
 
     }
 
-    @DisplayName("Author로 조회")
+    @DisplayName("User로 조회")
     @Test
     void findByAuthor() {
         //given
+        User user = User.builder()
+                .userPicture("picture")
+                .userEmail("email")
+                .userRole(Role.USER)
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
+                .user(user)
                 .build();
 
         postRepository.save(post);
 
         //when
-        Post findPost = postRepository.findByAuthor("저자");
+        Post findPost = postRepository.findByUser(user);
 
         //then
-        assertThat(post.getAuthor()).isEqualTo(findPost.getAuthor());
+        assertThat(post.getUser()).isEqualTo(findPost.getUser());
 
     }
 
@@ -104,7 +118,6 @@ class PostRepositoryTest {
                 .mapToObj(i -> Post.builder()
                         .title("title" + i)
                         .content("content" + i)
-                        .author("author" + i)
                         .build())
                 .collect(Collectors.toList());
 
@@ -126,7 +139,6 @@ class PostRepositoryTest {
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .build();
 
         postRepository.save(post);
@@ -147,11 +159,21 @@ class PostRepositoryTest {
         RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .categoryName("카테고리")
                 .build();
 
-        ResponsePost responsePost = postService.savePost(post);
+        User user = User.builder()
+                .username("name")
+                .userEmail("email")
+                .userPicture("picture")
+                .userRole(Role.USER)
+                .build();
+
+        userRepository.save(user);
+
+        SessionUser sessionUser = new SessionUser(user);
+
+        ResponsePost responsePost = postService.savePost(post, sessionUser);
 
         Post post1 = postRepository.findById(responsePost.getId()).orElse(null);
 

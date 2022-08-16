@@ -7,15 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.domain.user.Role;
+import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.repository.post.PostRepository;
+import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
-import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +43,9 @@ class PostApiControllerTest {
     private PostRepository postRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -53,21 +60,33 @@ class PostApiControllerTest {
     @Test
     void save_post() throws Exception {
         //given
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
+        MockHttpSession mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute("user", new SessionUser(user));
+
+
         RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .categoryName("")
                 .build();
 
         //then
         mockMvc.perform(post("/write")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(post)))
+                        .content(objectMapper.writeValueAsString(post))
+                        .session(mockHttpSession))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("제목"))
                 .andExpect(jsonPath("$.content").value("내용"))
-                .andExpect(jsonPath("$.author").value("저자"))
                 .andDo(print());
     }
 
@@ -75,23 +94,30 @@ class PostApiControllerTest {
     @Test
     void read_post() throws Exception {
         //given
-        RequestAddPost post = RequestAddPost.builder()
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
+        Post post = Post.builder()
                 .title("단건조회 제목")
                 .content("단건조회 내용")
-                .author("단건조회 저자")
-                .categoryName("")
+                .user(user)
                 .build();
 
         //when
-        ResponsePost responsePost = postService.savePost(post);
+        Post save = postRepository.save(post);
 
         //then
-        mockMvc.perform(get("/api/post/{id}", responsePost.getId())
+        mockMvc.perform(get("/api/post/{id}", save.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("단건조회 제목"))
                 .andExpect(jsonPath("$.content").value("단건조회 내용"))
-                .andExpect(jsonPath("$.author").value("단건조회 저자"))
                 .andDo(print());
     }
 
@@ -110,12 +136,22 @@ class PostApiControllerTest {
     @DisplayName("페이징 처리가 잘 되었는지 확인한다.")
     @Test
     void get_post_list() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
         //given
         List<Post> posts = IntStream.range(1, 21)
                 .mapToObj(i -> Post.builder()
                         .title("title" + i)
                         .content("content" + i)
-                        .author("author" + i)
+                        .user(user)
                         .build())
                 .collect(Collectors.toList());
 
@@ -131,7 +167,6 @@ class PostApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].title").value("title20"))
                 .andExpect(jsonPath("$.[0].content").value("content20"))
-                .andExpect(jsonPath("$.[0].author").value("author20"))
                 .andDo(print());
     }
 
@@ -141,7 +176,6 @@ class PostApiControllerTest {
         RequestAddPost requestAddPost = RequestAddPost.builder()
                 .title("제목")
                 .content("")
-                .author("저자")
                 .build();
 
         mockMvc.perform(post("/write")
@@ -158,10 +192,20 @@ class PostApiControllerTest {
     @DisplayName("글 수정")
     @Test
     void edit_post() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
+                .user(user)
                 .build();
 
         postRepository.save(post);
@@ -179,17 +223,27 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.title").value("TITLE"))
                 .andExpect(jsonPath("$.content").value("CONTENT"))
-                .andExpect(jsonPath("$.author").value("저자"))
+                .andExpect(jsonPath("$.userName").value("kim"))
                 .andDo(print());
     }
 
     @DisplayName("글 삭제")
     @Test
     void delete_post() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
+                .user(user)
                 .build();
 
         postRepository.save(post);

@@ -3,6 +3,8 @@ package toyproject.blogawspractice.web.controller.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import toyproject.blogawspractice.config.auth.LoginUser;
+import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
@@ -20,8 +22,9 @@ public class PostApiController {
 
     // TODO: API에서, 무엇을 반환할지는 항상 고민해봐야 할 문제이다.
     @PostMapping("/write")
-    public ResponsePost writePost(@Validated @RequestBody RequestAddPost requestAddPost) {
-        return postService.savePost(requestAddPost);
+    public ResponsePost writePost(@Validated @RequestBody RequestAddPost requestAddPost,
+                                  @LoginUser SessionUser user) {
+        return postService.savePost(requestAddPost, user);
     }
 
     @GetMapping("/api/post/{id}")

@@ -36,7 +36,6 @@ class PostServiceTest {
                 .mapToObj(i -> Post.builder()
                         .title("title" + i)
                         .content("content" + i)
-                        .author("author" + i)
                         .build())
                 .collect(Collectors.toList());
 

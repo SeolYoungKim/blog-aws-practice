@@ -10,8 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.domain.user.Role;
+import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.post.PostRepository;
+import toyproject.blogawspractice.repository.user.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +39,9 @@ class PostMvcControllerTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -126,11 +132,21 @@ class PostMvcControllerTest {
                 .name("목록1")
                 .build();
 
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
         Post post = Post.builder()
                 .title("제목")
                 .content("내용")
-                .author("저자")
                 .category(category)
+                .user(user)
                 .build();
 
         postRepository.save(post);

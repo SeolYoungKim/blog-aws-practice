@@ -14,9 +14,9 @@ var post = {
     save: function () {
         var data = {
             title: $('#title').val(),
-            author: $('#author').val(),
             content: $('#content').val(),
             categoryName: $('#categoryName').val()
+            // author: $('#author').val(),
         };
 
         $.ajax({

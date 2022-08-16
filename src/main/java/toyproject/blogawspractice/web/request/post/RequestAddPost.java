@@ -16,17 +16,17 @@ public class RequestAddPost {
     @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
-    @NotBlank(message = "저자를 입력해주세요.")
-    private String author;
+//    @NotBlank(message = "저자를 입력해주세요.")
+//    private String author;
 
     // 이거 그냥 카테고리 이름으로 받아서 처리해보자...
     private String categoryName;
 
     @Builder
-    public RequestAddPost(String title, String content, String author, String categoryName) {
+    public RequestAddPost(String title, String content, String categoryName) {
         this.title = title;
         this.content = content;
-        this.author = author;
+//        this.author = author;
         this.categoryName = categoryName;
     }
 
@@ -34,7 +34,7 @@ public class RequestAddPost {
         return Post.builder()
                 .title(this.title)
                 .content(this.content)
-                .author(this.author)
+//                .author(this.author)
 //                .category(this.category)
                 .build();
     }

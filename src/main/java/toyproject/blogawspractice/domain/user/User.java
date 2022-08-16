@@ -4,8 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toyproject.blogawspractice.domain.BaseTimeEntity;
+import toyproject.blogawspractice.domain.post.Post;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,6 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class User extends BaseTimeEntity {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
@@ -33,6 +38,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role userRole;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
 
     @Builder
     public User(String username, String userEmail, String userPicture, Role userRole) {
@@ -53,5 +61,10 @@ public class User extends BaseTimeEntity {
     // Role의 key를 얻음 > ROLE_USER...
     public String getRoleKey() {
         return userRole.getKey();
+    }
+
+    // 연관관계 편의 메서드
+    public void addPost(Post post) {
+        postList.add(post);
     }
 }

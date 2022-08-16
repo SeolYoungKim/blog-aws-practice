@@ -3,11 +3,14 @@ package toyproject.blogawspractice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.post.PostRepository;
+import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
@@ -24,12 +27,15 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     // TODO:Id를 반환하는 게 나을까? 객체를 반환하는 게 나을까? 저장 후 바로 글이 조회가 되어야 하는데, 이럴 때 어떻게 해야할지 고민?
     // 저장
-    public ResponsePost savePost(RequestAddPost requestAddPost) {
+    public ResponsePost savePost(RequestAddPost requestAddPost, SessionUser user) {
         Post post = postRepository.save(requestAddPost.toEntity());
         String categoryName = requestAddPost.getCategoryName();
+        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
         if (!categoryName.isEmpty()) {
             Category category = categoryRepository.findByName(categoryName);
@@ -37,6 +43,9 @@ public class PostService {
             post.addCategory(category);
             category.addPost(post);
         }
+
+        post.addUser(findUser);
+        findUser.addPost(post);
 
         return new ResponsePost(post);
     }
@@ -82,7 +91,7 @@ public class PostService {
             post.addCategory(category);
             category.addPost(post);
         } else {
-            post.addCategory(null);
+            post.addCategory(null);  // 카테고리 값이 비었으면 카테고리에 null 할당.
         }
 
         post.edit(editPost);  // 카테고리를 제외한 나머지 수정

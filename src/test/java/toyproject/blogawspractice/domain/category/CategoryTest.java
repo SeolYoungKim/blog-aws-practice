@@ -37,7 +37,6 @@ class CategoryTest {
         Post post = Post.builder()
                 .title("title")
                 .content("content")
-                .author("author")
                 .category(category)
                 .build();
 
@@ -79,7 +78,6 @@ class CategoryTest {
         for (Category category : categories) {
             System.out.println(objectMapper.writeValueAsString(category));
         }
-        //then
     }
 
 }

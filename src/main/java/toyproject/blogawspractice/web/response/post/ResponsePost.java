@@ -13,9 +13,10 @@ public class ResponsePost {
     private Long id;
     private String title;
     private String content;
-    private String author;
+//    private String author;
 //    private Category category;  //TODO: 순환참조 발생 이유가 여기였네..
     private String categoryName;
+    private String userName;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -24,9 +25,10 @@ public class ResponsePost {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.author = post.getAuthor();
+//        this.author = post.getAuthor();
 //        this.category = post.getCategory();
         this.categoryName = post.getCategory() != null? post.getCategory().getName() : "";
+        this.userName = post.getUser().getUsername();
         this.modifiedDate = post.getModifiedDate();
         this.createdDate = post.getCreatedDate();
     }
