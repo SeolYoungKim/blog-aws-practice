@@ -7,17 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.domain.user.WithMockCustomUser;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
-import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
 import toyproject.blogawspractice.web.request.post.RequestEditPost;
@@ -27,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,9 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @WithMockUser(roles = "USER")
 class PostApiControllerTest {
-
-    @Autowired
-    private PostService postService;
 
     @Autowired
     private PostRepository postRepository;
@@ -55,9 +50,9 @@ class PostApiControllerTest {
     @BeforeEach
     void clear() {
         postRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
-    @WithMockCustomUser
     @DisplayName("글을 저장한다.")
     @Test
     void save_post() throws Exception {
@@ -69,11 +64,7 @@ class PostApiControllerTest {
                 .username("kim")
                 .build();
 
-
         userRepository.save(user1);
-
-        MockHttpSession mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("user", new SessionUser(user1));
 
         RequestAddPost post = RequestAddPost.builder()
                 .title("제목")
@@ -85,7 +76,7 @@ class PostApiControllerTest {
         mockMvc.perform(post("/write")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(post))
-                        .session(mockHttpSession))
+                        .with(oauth2Login().attributes(attrs -> attrs.put("email", "email"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("제목"))
                 .andExpect(jsonPath("$.content").value("내용"))
@@ -191,7 +182,6 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
-    @WithMockCustomUser
     @DisplayName("글 수정")
     @Test
     void edit_post() throws Exception {
@@ -221,7 +211,8 @@ class PostApiControllerTest {
 
         mockMvc.perform(patch("/api/post/{id}/edit", post.getId())
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(editPost)))
+                        .content(objectMapper.writeValueAsString(editPost))
+                        .with(oauth2Login().attributes(attrs -> attrs.put("email", "email"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.title").value("TITLE"))
@@ -253,7 +244,8 @@ class PostApiControllerTest {
         postRepository.save(post);
 
         mockMvc.perform(delete("/post/{id}/delete", post.getId())
-                        .contentType(APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON)
+                        .with(oauth2Login().attributes(attrs -> attrs.put("email", "email"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(post.getId())))
                 .andDo(print());

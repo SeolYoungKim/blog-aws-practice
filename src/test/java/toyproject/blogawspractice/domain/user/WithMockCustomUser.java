@@ -11,7 +11,7 @@ public @interface WithMockCustomUser {
 
     String username() default "kim";
 
-    String userEmail() default "email@email.com";
+    String email() default "nasur4da@gmail.com";
 
     String userPicture() default "userPicture";
 

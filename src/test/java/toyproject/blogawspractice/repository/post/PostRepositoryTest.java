@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import toyproject.blogawspractice.config.auth.dto.SessionUser;
-import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
@@ -14,8 +12,6 @@ import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
-import toyproject.blogawspractice.web.request.post.RequestAddPost;
-import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -147,39 +143,4 @@ class PostRepositoryTest {
         System.out.println(">>>>>>>>>>>" + post.getModifiedDate());
     }
 
-    @DisplayName("Post와 Category의 관계 매핑이 제대로 되었는지 확인")
-    @Test
-    void postCategoryMapping() {
-        Category category = Category.builder()
-                .name("카테고리")
-                .build();
-
-        categoryRepository.save(category);
-
-        RequestAddPost post = RequestAddPost.builder()
-                .title("제목")
-                .content("내용")
-                .categoryName("카테고리")
-                .build();
-
-        User user = User.builder()
-                .username("name")
-                .userEmail("email")
-                .userPicture("picture")
-                .userRole(Role.USER)
-                .build();
-
-        userRepository.save(user);
-
-        SessionUser sessionUser = new SessionUser(user);
-
-        ResponsePost responsePost = postService.savePost(post, sessionUser);
-
-        Post post1 = postRepository.findById(responsePost.getId()).orElse(null);
-
-        assertThat(post1.getCategory().getName()).isEqualTo("카테고리");
-        assertThat(post1.getCategory().getId()).isEqualTo(category.getId());
-        assertThat(category.getPostList().size()).isEqualTo(1);
-        assertThat(category.getPostList().get(0)).isEqualTo(postRepository.findByTitle("제목"));
-    }
 }

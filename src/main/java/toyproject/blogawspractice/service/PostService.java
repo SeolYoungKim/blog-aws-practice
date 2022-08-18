@@ -1,9 +1,10 @@
 package toyproject.blogawspractice.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.User;
@@ -20,6 +21,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
+
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,10 +35,12 @@ public class PostService {
 
     // TODO:Id를 반환하는 게 나을까? 객체를 반환하는 게 나을까? 저장 후 바로 글이 조회가 되어야 하는데, 이럴 때 어떻게 해야할지 고민?
     // 저장
-    public ResponsePost savePost(RequestAddPost requestAddPost, SessionUser user) {
+    public ResponsePost savePost(RequestAddPost requestAddPost, OAuth2User user) {
         Post post = postRepository.save(requestAddPost.toEntity());
         String categoryName = requestAddPost.getCategoryName();
-        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+
+        String email = findEmail(user);
+        User findUser = userRepository.getUserFromEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
         if (!categoryName.isEmpty()) {
@@ -48,6 +54,11 @@ public class PostService {
         findUser.addPost(post);
 
         return new ResponsePost(post);
+    }
+
+    public void sessionTest(OAuth2User user) {
+        String email = findEmail(user);
+        log.info("현재 유저의 email 주소 : {}", email);
     }
 
     // 단건 조회
@@ -79,13 +90,15 @@ public class PostService {
     }
 
     // 수정
-    public ResponsePost editPost(Long id, RequestEditPost editPost, SessionUser user) throws Exception {
+    public ResponsePost editPost(Long id, RequestEditPost editPost, OAuth2User user) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("글이 없습니다."));
 
         String categoryName = editPost.getCategoryName();
 
-        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+        String email = findEmail(user);
+
+        User findUser = userRepository.getUserFromEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
         if (post.getUser() == findUser) {
@@ -107,11 +120,13 @@ public class PostService {
     }
 
     // 삭제
-    public Long deletePost(Long id, SessionUser user) throws Exception {
+    public Long deletePost(Long id, OAuth2User user) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NullPostException("글이 없습니다."));
 
-        User findUser = userRepository.getUserFromEmail(user.getUserEmail())
+        String email = findEmail(user);
+
+        User findUser = userRepository.getUserFromEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
 
         if (post.getUser() == findUser) {
