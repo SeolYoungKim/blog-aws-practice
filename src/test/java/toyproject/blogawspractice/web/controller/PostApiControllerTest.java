@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
-import toyproject.blogawspractice.domain.user.WithMockCustomUser;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.web.request.post.PostSearch;
@@ -122,7 +121,7 @@ class PostApiControllerTest {
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("404"))
-                .andExpect(jsonPath("$.message").value("글이 없습니다."))
+                .andExpect(jsonPath("$.message").value("조회할 글이 없습니다."))
                 .andDo(print());
     }
 
@@ -221,7 +220,6 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
-    @WithMockCustomUser
     @DisplayName("글 삭제")
     @Test
     void delete_post() throws Exception {

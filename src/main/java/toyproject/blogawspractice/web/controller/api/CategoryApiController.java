@@ -3,7 +3,6 @@ package toyproject.blogawspractice.web.controller.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.CategoryService;
 import toyproject.blogawspractice.web.request.category.RequestAddCategory;
 import toyproject.blogawspractice.web.request.category.RequestEditCategory;
@@ -23,13 +22,14 @@ public class CategoryApiController {
 
     // 수정
     @PatchMapping("/category/{id}/edit")
-    public ResponseCategory editCategory(@PathVariable Long id, @Validated @RequestBody RequestEditCategory editCategory) throws NullPostException {
+    public ResponseCategory editCategory(@PathVariable Long id,
+                                         @Validated @RequestBody RequestEditCategory editCategory) throws Exception {
         return categoryService.editCategory(id, editCategory);
     }
 
     // 삭제
     @DeleteMapping("/category/{id}/delete")
-    public Long deleteCategory(@PathVariable Long id) throws NullPostException {
+    public Long deleteCategory(@PathVariable Long id) throws Exception {
         return categoryService.deleteCategory(id);
     }
 }

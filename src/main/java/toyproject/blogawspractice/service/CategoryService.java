@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
-import toyproject.blogawspractice.exception.NullPostException;
+import toyproject.blogawspractice.exception.NullCategoryException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.web.request.category.RequestAddCategory;
 import toyproject.blogawspractice.web.request.category.RequestEditCategory;
@@ -28,9 +28,9 @@ public class CategoryService {
 
     // 단건 조회
     @Transactional(readOnly = true)
-    public ResponseCategory readCategory(Long id) throws NullPostException {
+    public ResponseCategory readCategory(Long id) throws Exception {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("카테고리가 없습니다."));
+                .orElseThrow(NullCategoryException::new);
 
         return new ResponseCategory(category);
     }
@@ -45,9 +45,9 @@ public class CategoryService {
     }
 
     // 수정
-    public ResponseCategory editCategory(Long id, RequestEditCategory editCategory) throws NullPostException {
+    public ResponseCategory editCategory(Long id, RequestEditCategory editCategory) throws Exception {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("카테고리가 없습니다."));
+                .orElseThrow(NullCategoryException::new);
 
         category.edit(editCategory);
 
@@ -55,9 +55,9 @@ public class CategoryService {
     }
 
     // 삭제
-    public Long deleteCategory(Long id) throws NullPostException {
+    public Long deleteCategory(Long id) throws Exception {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("카테고리가 없습니다."));
+                .orElseThrow(NullCategoryException::new);
 
         categoryRepository.delete(category);
 

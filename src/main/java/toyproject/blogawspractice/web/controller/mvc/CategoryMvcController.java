@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.CategoryService;
 import toyproject.blogawspractice.web.response.category.ResponseCategory;
 
@@ -23,7 +22,7 @@ public class CategoryMvcController {
     }
 
     @GetMapping("/category/{id}/edit")
-    public String editCategory(@PathVariable Long id, Model model) throws NullPostException {
+    public String editCategory(@PathVariable Long id, Model model) throws Exception {
         ResponseCategory responseCategory = categoryService.readCategory(id);
         model.addAttribute("category", responseCategory);
         return "category/edit-category";
@@ -31,7 +30,7 @@ public class CategoryMvcController {
 
     // 단건 조회
     @GetMapping("/category/{id}")
-    public String readCategory(@PathVariable Long id, Model model) throws NullPostException {
+    public String readCategory(@PathVariable Long id, Model model) throws Exception {
         ResponseCategory responseCategory = categoryService.readCategory(id);
         model.addAttribute("category", responseCategory);
         return "category/read-category";

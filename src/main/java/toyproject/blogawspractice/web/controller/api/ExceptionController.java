@@ -5,8 +5,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import toyproject.blogawspractice.exception.ErrorResult;
-import toyproject.blogawspractice.exception.NullPostException;
+import toyproject.blogawspractice.exception.BlogException;
+import toyproject.blogawspractice.web.response.ErrorResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +17,11 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class ExceptionController {
 
     @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(NullPostException.class)
-    public ErrorResult nullPostExceptionHandler(NullPostException e) {
+    @ExceptionHandler(BlogException.class)
+    public ErrorResult blogExceptionHandler(BlogException e) {
+
         return ErrorResult.builder()
-                .code("404")
+                .code(String.valueOf(e.getStatusCode()))
                 .message(e.getMessage())
                 .build();
     }
@@ -42,4 +43,5 @@ public class ExceptionController {
                 .collect(Collectors.toList());
 
     }
+
 }

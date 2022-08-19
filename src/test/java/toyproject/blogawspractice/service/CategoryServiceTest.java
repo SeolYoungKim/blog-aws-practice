@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
-import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.web.request.category.RequestAddCategory;
@@ -50,7 +49,7 @@ class CategoryServiceTest {
 
     @DisplayName("카테고리가 조회된다.")
     @Test
-    void readCategory() throws NullPostException {
+    void readCategory() throws Exception {
         Category category = Category.builder()
                 .name("category1")
                 .build();
@@ -80,7 +79,7 @@ class CategoryServiceTest {
     @Transactional
     @DisplayName("카테고리가 수정된다.")
     @Test
-    void editCategory() throws NullPostException {
+    void editCategory() throws Exception {
         Category category = Category.builder()
                 .name("category1")
                 .build();
@@ -98,7 +97,7 @@ class CategoryServiceTest {
 
     @DisplayName("카테고리가 삭제된다.")
     @Test
-    void deleteCategory() throws NullPostException {
+    void deleteCategory() throws Exception {
         Category category = Category.builder()
                 .name("category1")
                 .build();

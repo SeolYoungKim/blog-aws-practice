@@ -1,4 +1,4 @@
-package toyproject.blogawspractice.exception;
+package toyproject.blogawspractice.web.response;
 
 import lombok.Builder;
 import lombok.Getter;

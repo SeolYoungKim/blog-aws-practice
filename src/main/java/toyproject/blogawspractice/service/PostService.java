@@ -9,6 +9,7 @@ import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.exception.NullPostException;
+import toyproject.blogawspractice.exception.NullUserException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.post.PostRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
@@ -35,13 +36,13 @@ public class PostService {
 
     // TODO:Id를 반환하는 게 나을까? 객체를 반환하는 게 나을까? 저장 후 바로 글이 조회가 되어야 하는데, 이럴 때 어떻게 해야할지 고민?
     // 저장
-    public ResponsePost savePost(RequestAddPost requestAddPost, OAuth2User user) {
+    public ResponsePost savePost(RequestAddPost requestAddPost, OAuth2User user) throws NullUserException {
         Post post = postRepository.save(requestAddPost.toEntity());
         String categoryName = requestAddPost.getCategoryName();
 
         String email = findEmail(user);
         User findUser = userRepository.getUserFromEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
+                .orElseThrow(NullUserException::new);
 
         if (!categoryName.isEmpty()) {
             Category category = categoryRepository.findByName(categoryName);
@@ -65,7 +66,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public ResponsePost readPost(Long id) throws NullPostException {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("글이 없습니다."));
+                .orElseThrow(NullPostException::new);
 
         return new ResponsePost(post);
     }
@@ -92,14 +93,14 @@ public class PostService {
     // 수정
     public ResponsePost editPost(Long id, RequestEditPost editPost, OAuth2User user) throws Exception {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("글이 없습니다."));
+                .orElseThrow(NullPostException::new);
 
         String categoryName = editPost.getCategoryName();
 
         String email = findEmail(user);
 
         User findUser = userRepository.getUserFromEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
+                .orElseThrow(NullUserException::new);
 
         if (post.getUser() == findUser) {
             if (!categoryName.isEmpty()) {  // 카테고리 수정 로직. 카테고리 값이 빈값이 아니어야만 수행됨.
@@ -122,18 +123,18 @@ public class PostService {
     // 삭제
     public Long deletePost(Long id, OAuth2User user) throws Exception {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new NullPostException("글이 없습니다."));
+                .orElseThrow(NullPostException::new);
 
         String email = findEmail(user);
 
         User findUser = userRepository.getUserFromEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
+                .orElseThrow(NullUserException::new);
 
         if (post.getUser() == findUser) {
             postRepository.delete(post);
             return id;
         } else {
-            throw new IllegalAccessException("잘못된 접근입니다.");
+            throw new IllegalAccessException("잘못된 접근입니다.");  // 글 작성자가 아닌 사람이 글을 지우려 할 때.
         }
     }
 

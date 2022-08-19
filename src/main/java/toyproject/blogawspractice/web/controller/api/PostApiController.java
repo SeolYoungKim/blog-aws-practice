@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import toyproject.blogawspractice.exception.NullPostException;
+import toyproject.blogawspractice.exception.NullUserException;
 import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.request.post.RequestAddPost;
@@ -23,7 +24,7 @@ public class PostApiController {
     // TODO: API에서, 무엇을 반환할지는 항상 고민해봐야 할 문제이다.
     @PostMapping("/write")
     public ResponsePost writePost(@Validated @RequestBody RequestAddPost requestAddPost,
-                                  @AuthenticationPrincipal OAuth2User oAuth2User) {
+                                  @AuthenticationPrincipal OAuth2User oAuth2User) throws NullUserException {
         postService.sessionTest(oAuth2User);
         return postService.savePost(requestAddPost, oAuth2User);
     }
