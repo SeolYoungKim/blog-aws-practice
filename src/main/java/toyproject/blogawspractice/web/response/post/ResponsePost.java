@@ -16,6 +16,7 @@ public class ResponsePost {
 //    private Category category;  //TODO: 순환참조 발생 이유가 여기였네..
     private String categoryName;
     private String userName;
+    private String userRole;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -26,6 +27,7 @@ public class ResponsePost {
         this.content = post.getContent();
         this.categoryName = post.getCategory() != null? post.getCategory().getName() : "";
         this.userName = post.getUser().getUsername();
+        this.userRole = post.getUser().getRoleKey();
         this.modifiedDate = post.getModifiedDate();
         this.createdDate = post.getCreatedDate();
     }

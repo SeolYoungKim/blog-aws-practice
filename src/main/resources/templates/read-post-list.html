@@ -34,7 +34,8 @@
             <tr th:each="post : ${postList}">
                 <td th:text="${post.id}"></td>
                 <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
-                <td th:text="${post.userName}"></td>
+                <td th:if="${post.userRole == 'ROLE_ADMIN'}" th:text="|${post.userName}(ADMIN)|"></td>
+                <td th:unless="${post.userRole == 'ROLE_ADMIN'}" th:text="${post.userName}"></td>
                 <td th:text="${post.modifiedDate}"></td>
             </tr>
         </tbody>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
+import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.exception.NullUserException;
@@ -130,7 +131,7 @@ public class PostService {
         User findUser = userRepository.getUserFromEmail(email)
                 .orElseThrow(NullUserException::new);
 
-        if (post.getUser() == findUser) {
+        if ((post.getUser() == findUser) || (findUser.getUserRole().equals(Role.ADMIN))) {
             postRepository.delete(post);
             return id;
         } else {

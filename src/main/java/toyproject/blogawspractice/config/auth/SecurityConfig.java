@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                        .antMatchers("/category/**", "/categories", "/write", "/api/**", "/post/**", "/posts").hasRole(Role.USER.name())
+                        .antMatchers("/category/**", "/categories", "/write", "/api/**", "/post/**", "/posts").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))

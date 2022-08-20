@@ -66,10 +66,28 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.getUserFromEmail(attributes.getUserEmail())
-                .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER))
-                .orElse(attributes.toEntity());
+        String userEmail = attributes.getUserEmail();
+        User user;
+
+        // 내 구글 계정만 ADMIN 권한 부여
+        if (userEmail.equals("nasur4da@gmail.com")) {
+            user = userRepository.getUserFromEmail(userEmail)
+                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.ADMIN))
+                    .orElse(User.builder()
+                            .username(attributes.getUserName())
+                            .userEmail(userEmail)
+                            .userPicture(attributes.getUserPicture())
+                            .userRole(Role.ADMIN)
+                            .build());
+
+        } else {
+            user = userRepository.getUserFromEmail(userEmail)
+                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER))
+                    .orElse(attributes.toEntity());
+
+        }
 
         return userRepository.save(user);
+
     }
 }
