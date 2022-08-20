@@ -40,7 +40,7 @@ public class User extends BaseTimeEntity {
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
-    private List<Post> postList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
 
     @Builder
     public User(String username, String userEmail, String userPicture, Role userRole) {
