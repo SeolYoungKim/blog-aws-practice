@@ -15,23 +15,24 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    //TODO: filterChain 표기 방법에 대한 권장 사항이 달라졌다. 이를 최신 버전으로 업데이트 해봅시다.
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                .authorizeHttpRequests()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                .antMatchers("/category/**", "/categories", "/write", "/api/**", "/post/**", "/posts").hasRole(Role.USER.name())  // Role.USER : Role 타입. 여기선 String Type을 넘겨줘야 하므로 name()사용.
-                .anyRequest().authenticated()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .oauth2Login()
-                .userInfoEndpoint()  // userInfoEndpoint로 부터 최종 사용자의 사용자 속성을 가져옴
-                .userService(customOAuth2UserService);  // 소셜 로그인 성공 -> 후속 조치를 진행할 UserService 인터페이스 구현체를 등록 (사용자 정보 처리)
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
+                        .antMatchers("/category/**", "/categories", "/write", "/api/**", "/post/**", "/posts").hasRole(Role.USER.name())
+                        .anyRequest().authenticated())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/"))
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint()  // userInfoEndpoint로 부터 최종 사용자의 사용자 속성을 가져옴
+                        .userService(customOAuth2UserService)); // 소셜 로그인 성공 -> 후속 조치를 진행할 UserService 인터페이스 구현체를 등록 (사용자 정보 처리)
+                                                                // UserEndpoint에 대한 위임 전략임
 
         return http.build();
     }

@@ -5,8 +5,6 @@ import lombok.Getter;
 @Getter
 public abstract class BlogException extends RuntimeException {
 
-//    private final Map<String, String> validation = new HashMap<>();
-
     public BlogException(String message) {
         super(message);
     }
@@ -17,7 +15,4 @@ public abstract class BlogException extends RuntimeException {
 
     public abstract int getStatusCode();
 
-//    public void addValidation(String filedName, String message) {
-//        validation.put(filedName, message);
-//    }
 }
