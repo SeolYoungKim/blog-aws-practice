@@ -24,7 +24,7 @@ public class Category extends BaseTimeEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "category_name")
     private String name;
 
     @OneToMany(mappedBy = "category")

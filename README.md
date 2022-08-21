@@ -2,7 +2,7 @@
 
 ## ERD
 ![img.png](readmeImg/img.png)
-
+![img.png](readmeImg/img2.png)
 
 ## 프로젝트 일지
 프로젝트를 만들면서, 프로젝트 일지를 작성했습니다.

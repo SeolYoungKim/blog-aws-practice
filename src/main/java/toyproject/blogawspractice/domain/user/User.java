@@ -26,7 +26,7 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_name")
     private String username;  // TODO: Post entity의 작성자 이름에 들어갈 내용이다.
 
     @Column(nullable = false)

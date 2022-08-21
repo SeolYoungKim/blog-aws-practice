@@ -10,5 +10,5 @@ public class UserApiController {
 
     private final UserService userService;
 
-    //TODO: 유저 정보 수정 관련 컨트롤러 추후 구현
+    //TODO: 유저 정보 수정 관련 컨트롤러 추후 구현 > 이후 테스트 코드 작성
 }

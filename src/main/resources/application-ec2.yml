@@ -1,0 +1,10 @@
+# ec2에서 구동될 환경
+spring:
+  profiles:
+    include: oauth, ec2-db
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MYSQL5InnoDBDialect
+  session:
+    store-type: jdbc

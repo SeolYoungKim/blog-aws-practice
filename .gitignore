@@ -38,3 +38,4 @@ out/
 
 ### yml, properties ###
 application-oauth.yml
+application-ec2-db.yml
