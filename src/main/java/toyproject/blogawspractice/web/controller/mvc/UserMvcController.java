@@ -20,6 +20,6 @@ public class UserMvcController {
         ResponseUser user = userService.readUser(oAuth2User);
         model.addAttribute("user", user);
 
-        return "/user/setting";
+        return "user/setting";
     }
 }
