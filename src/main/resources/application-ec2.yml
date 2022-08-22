@@ -1,7 +1,7 @@
 # ec2에서 구동될 환경
 spring:
   profiles:
-    include: oauth, ec2-db
+    include: ec2, oauth, ec2-db
   jpa:
     properties:
       hibernate:
