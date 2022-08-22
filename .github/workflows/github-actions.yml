@@ -1,4 +1,4 @@
-# main.yml의 최상단입니다.
+## github-actions.yml의 최상단입니다.
 env:
   S3_BUCKET_NAME: blog-aws-practice-build
   PROJECT_NAME: blog-aws-practice
