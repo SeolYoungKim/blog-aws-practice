@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-jdbc'
 
 	implementation 'org.mariadb.jdbc:mariadb-java-client'  // mariadb 추가
+	implementation 'com.h2database:h2'
 
 	implementation 'com.querydsl:querydsl-core'
 	implementation 'com.querydsl:querydsl-jpa'
@@ -40,8 +41,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	compileOnly 'org.projectlombok:lombok'
-//	runtimeOnly 'com.h2database:h2'
-
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
