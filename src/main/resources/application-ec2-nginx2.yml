@@ -1,0 +1,14 @@
+server:
+  port: 8082
+spring:
+  profiles:
+    include: ec2-nginx2, oauth, ec2-db
+  jpa:
+    properties:
+      hibernate:
+        dialect:
+          nodeValue:
+            org.hibernate.dialect.MySQL5InnoDBDialect
+          storage_engine: innodb
+  session:
+    store-type: jdbc
