@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   profiles:
-    include: ec2-nginx2, oauth, ec2-db
+    include: ec2-nginx1, oauth, ec2-db
   jpa:
     properties:
       hibernate:
