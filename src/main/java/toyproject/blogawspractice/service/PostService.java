@@ -63,11 +63,32 @@ public class PostService {
         log.info("현재 유저의 email 주소 : {}", email);
     }
 
-    // 단건 조회
+    // 단건 조회 - for edit
     @Transactional(readOnly = true)
     public ResponsePost readPost(Long id) throws NullPostException {
         Post post = postRepository.findById(id)
                 .orElseThrow(NullPostException::new);
+
+        return new ResponsePost(post);
+    }
+
+    // 단건 조회 - 오버로딩 - for 단건조회 페이지
+    @Transactional(readOnly = true)
+    public ResponsePost readPost(Long id, OAuth2User oAuth2User) throws NullPostException {
+        Post post = postRepository.findById(id)
+                .orElseThrow(NullPostException::new);
+
+        String postUserEmail = post.getUser().getUserEmail();
+        String oAuth2UserEmail = findEmail(oAuth2User);
+
+        if (post.getViews() == null) {
+            post.initViews();
+        }
+
+        // TODO: 나중에는 단시간 내에 너무 많은 조회수가 발생하면 어떻게 처리해야 할까 고민해보자.
+        if (!postUserEmail.equals(oAuth2UserEmail)) {
+            post.updateViews(1);
+        }
 
         return new ResponsePost(post);
     }
@@ -81,6 +102,7 @@ public class PostService {
     }
 
     // 페이지 개수 조회
+    @Transactional(readOnly = true)
     public List<Integer> getPageCount(PostSearch postSearch) {
         Integer totalPostNumber = postRepository.findAll().size();
         Integer pageSize = postSearch.getSize();
@@ -139,17 +161,5 @@ public class PostService {
         }
     }
 
-//    @PostConstruct
-//    public void sampleData() {
-//        List<Post> postList = IntStream.range(1, 101)
-//                .mapToObj(i -> Post.builder()
-//                        .title("title" + i)
-//                        .content("content" + i)
-//                        .author("author" + i)
-//                        .build())
-//                .collect(Collectors.toList());
-//
-//        postRepository.saveAll(postList);
-//    }
 
 }

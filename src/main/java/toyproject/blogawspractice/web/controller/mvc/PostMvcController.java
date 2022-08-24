@@ -1,6 +1,8 @@
 package toyproject.blogawspractice.web.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +47,9 @@ public class PostMvcController {
     }
 
     @GetMapping("/post/{id}")
-    public String readPost(@PathVariable Long id, Model model) throws NullPostException {
-        ResponsePost responsePost = postService.readPost(id);
+    public String readPost(@PathVariable Long id, Model model,
+                           @AuthenticationPrincipal OAuth2User oAuth2User) throws NullPostException {
+        ResponsePost responsePost = postService.readPost(id, oAuth2User);
         model.addAttribute("post", responsePost);
 
         return "read-post";

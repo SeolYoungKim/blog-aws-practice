@@ -27,6 +27,7 @@
         <thead class="thead-strong">
         <tr>
             <th>게시글 번호</th>
+            <th>조회수</th>
             <th>제목</th>
             <th>작성자</th>
             <th>최종 수정일</th>
@@ -35,6 +36,7 @@
         <tbody id="tbody">
             <tr th:each="post : ${postList}">
                 <td th:text="${post.id}"></td>
+                <td th:text="${post.views}"></td>
                 <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
                 <td th:if="${post.userRole == 'ROLE_ADMIN'}" th:text="|${post.userName}(ADMIN)|"></td>
                 <td th:unless="${post.userRole == 'ROLE_ADMIN'}" th:text="${post.userName}"></td>

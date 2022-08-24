@@ -1,8 +1,23 @@
 # blog-aws-practice
 
+## 소개
+RestAPI(js) + Serverside template(Thymeleaf)를 혼용하여 구현한 게시판입니다.
+
+### 현재 완료된 작업
+- 글 및 카테고리 관련 CRUD
+- OAuth2.0을 이용한 구글, 네이버, 카카오 로그인 구현
+- Spring security를 이용한 글 수정 및 삭제 권한 부여(작성자만 가능하도록) 및 개인 페이지 구현
+  - 특히, 삭제 기능은 관리자에게는 제한 없이 삭제가 가능하도록 구성하였습니다.
+- AWS EC2 + Nginx 무중단배포
+- `Utterances`를 이용한 댓글 기능 추가
+
+### 예정
+- 좋아요, 싫어요, 파일업로드 기능
+- 뷰 파일을 보기 좋게 변경하기
+- API 문서 작성
+
 ## ERD
 ![img.png](readmeImg/img.png)
-![img.png](readmeImg/img2.png)
 
 ## 프로젝트 일지
 프로젝트를 만들면서, 프로젝트 일지를 작성했습니다.
