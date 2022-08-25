@@ -55,16 +55,22 @@ public class PostMvcController {
         return "read-post";
     }
 
+    // TODO: 어디서는 SessionUser, 어디서는 OAuth2User를 사용하고 있다. 테스트의 문제로 이렇게 사용하고 있지만, 획일화 할 필요성이 있어보인다. 어떻게 해야할까?
     @GetMapping("/posts")
-    public String getPostList(@ModelAttribute PostSearch postSearch, Model model) {
+    public String getPostList(@ModelAttribute PostSearch postSearch, Model model,
+                              @LoginUser SessionUser user) {
         List<ResponsePost> postList = postService.getPostList(postSearch);
         List<Integer> pageCounts = postService.getPageCount(postSearch);
 
+        //TODO: 여기 정리가 필요하다. 리팩토링 대상!
+        model.addAttribute("user", user);
+
         model.addAttribute("postList", postList);
         model.addAttribute("postSearch", postSearch);
+
+        model.addAttribute("pageCounts", pageCounts);
         model.addAttribute("postPageUpperLimit", postSearch.getPage() + 2);
         model.addAttribute("postPageLowerLimit", pageCounts.size() - 5);
-        model.addAttribute("pageCounts", pageCounts);
 
         return "read-post-list";
     }

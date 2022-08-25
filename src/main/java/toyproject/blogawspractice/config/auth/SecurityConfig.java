@@ -15,8 +15,6 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    //TODO: filterChain 표기 방법에 대한 권장 사항이 달라졌다. 이를 최신 버전으로 업데이트 해봅시다.
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -25,7 +23,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                        .antMatchers("/category/**", "/categories", "/write", "/api/**", "/post/**", "/posts", "/setting").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .antMatchers("/categories", "/write", "/api/**", "/post/**", "/posts", "/setting").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .antMatchers("/category/**").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))

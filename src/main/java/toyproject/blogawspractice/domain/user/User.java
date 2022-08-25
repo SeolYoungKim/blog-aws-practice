@@ -27,7 +27,7 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false, name = "user_name")
-    private String username;  // TODO: Post entity의 작성자 이름에 들어갈 내용이다.
+    private String username;
 
     @Column(nullable = false)
     private String userEmail;
@@ -35,6 +35,7 @@ public class User extends BaseTimeEntity {
     @Column
     private String userPicture;
 
+    //TODO: 나중에 Role이 많아진다면? List<Role>로 관리해야 하지 않을까?
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role userRole;

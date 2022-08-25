@@ -6,16 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
-import toyproject.blogawspractice.service.CategoryService;
+import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.web.request.category.RequestAddCategory;
 import toyproject.blogawspractice.web.request.category.RequestEditCategory;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(roles = "USER")
 class CategoryApiControllerTest {
 
     @Autowired
@@ -33,7 +33,7 @@ class CategoryApiControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private CategoryService categoryService;
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -47,7 +47,8 @@ class CategoryApiControllerTest {
 
         mockMvc.perform(post("/category/add")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(category)))
+                        .content(objectMapper.writeValueAsString(category))
+                        .with(oauth2Login().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("category1"))
                 .andDo(print());
@@ -69,7 +70,8 @@ class CategoryApiControllerTest {
 
         mockMvc.perform(patch("/category/{id}/edit", category.getId())
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(editCategory)))
+                        .content(objectMapper.writeValueAsString(editCategory))
+                        .with(oauth2Login().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("카테고리입니다."))
                 .andExpect(jsonPath("$.id").value(category.getId()))
@@ -86,7 +88,8 @@ class CategoryApiControllerTest {
         categoryRepository.save(category);
 
         mockMvc.perform(delete("/category/{id}/delete", category.getId())
-                        .contentType(APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON)
+                        .with(oauth2Login().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(category.getId())))
                 .andDo(print());

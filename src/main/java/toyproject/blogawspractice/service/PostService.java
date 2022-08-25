@@ -101,12 +101,13 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    // 페이지 개수 조회
+    // 페이지 개수 조회 TODO: 다른 사람도 로직을 잘 알아볼 수 있게 수정해보자..
     @Transactional(readOnly = true)
     public List<Integer> getPageCount(PostSearch postSearch) {
         Integer totalPostNumber = postRepository.findAll().size();
         Integer pageSize = postSearch.getSize();
-        Integer pageCount = totalPostNumber / pageSize + 1;
+
+        int pageCount = totalPostNumber / pageSize + 1;
 
         return IntStream.range(1, pageCount + 1)
                 .boxed()
