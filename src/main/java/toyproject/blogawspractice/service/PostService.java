@@ -9,6 +9,7 @@ import toyproject.blogawspractice.domain.category.Category;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
+import toyproject.blogawspractice.exception.NullCategoryException;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.exception.NullUserException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
@@ -46,7 +47,8 @@ public class PostService {
                 .orElseThrow(NullUserException::new);
 
         if (!categoryName.isEmpty()) {
-            Category category = categoryRepository.findByName(categoryName);
+            Category category = categoryRepository.findByName(categoryName)
+                    .orElseThrow(NullCategoryException::new);
 
             post.addCategory(category);
             category.addPost(post);
@@ -128,7 +130,8 @@ public class PostService {
 
         if (post.getUser() == findUser) {
             if (!categoryName.isEmpty()) {  // 카테고리 수정 로직. 카테고리 값이 빈값이 아니어야만 수행됨.
-                Category category = categoryRepository.findByName(categoryName);
+                Category category = categoryRepository.findByName(categoryName)
+                        .orElseThrow(NullCategoryException::new);
 
                 post.addCategory(category);
                 category.addPost(post);

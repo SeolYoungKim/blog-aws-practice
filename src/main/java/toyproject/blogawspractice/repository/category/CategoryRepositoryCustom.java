@@ -2,7 +2,9 @@ package toyproject.blogawspractice.repository.category;
 
 import toyproject.blogawspractice.domain.category.Category;
 
+import java.util.Optional;
+
 public interface CategoryRepositoryCustom {
 
-    Category findByName(String name);
+    Optional<Category> findByName(String name);
 }

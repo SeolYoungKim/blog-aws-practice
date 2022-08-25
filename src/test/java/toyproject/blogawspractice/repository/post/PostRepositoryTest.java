@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
+import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.service.PostService;
@@ -52,7 +53,8 @@ class PostRepositoryTest {
         postRepository.save(post);
 
         //when
-        Post findPost = postRepository.findByTitle("제목");
+        Post findPost = postRepository.findByTitle("제목")
+                .orElseThrow(NullPostException::new);
 
         //then
         assertThat(post.getTitle()).isEqualTo(findPost.getTitle());
@@ -70,7 +72,8 @@ class PostRepositoryTest {
         postRepository.save(post);
 
         //when
-        Post findPost = postRepository.findByContent("내용");
+        Post findPost = postRepository.findByContent("내용")
+                .orElseThrow(NullPostException::new);
 
         //then
         assertThat(post.getContent()).isEqualTo(findPost.getContent());
@@ -99,7 +102,8 @@ class PostRepositoryTest {
         postRepository.save(post);
 
         //when
-        Post findPost = postRepository.findByUser(user);
+        Post findPost = postRepository.findByUser(user)
+                .orElseThrow(NullPostException::new);
 
         //then
         assertThat(post.getUser()).isEqualTo(findPost.getUser());
