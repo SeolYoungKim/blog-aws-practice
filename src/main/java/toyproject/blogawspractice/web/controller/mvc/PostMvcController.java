@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import toyproject.blogawspractice.config.auth.LoginUser;
 import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.exception.NullPostException;
@@ -87,11 +86,4 @@ public class PostMvcController {
         return "edit-post";
     }
 
-    @GetMapping("/search")
-    public String searchPost(@RequestParam("type") String type,
-                             @RequestParam("keyword") String keyword) {
-        List<ResponsePost> postList = postService.searchPost(type, keyword);
-        
-        return "search-post";
-    }
 }

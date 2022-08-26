@@ -1,6 +1,6 @@
-var post = {
+let post = {
     init: function () {
-        var _this = this;
+        let _this = this;
         $('#btn-save-post').on('click', function () {
             _this.save();
         });
@@ -10,9 +10,12 @@ var post = {
         $('#btn-delete-post').on('click', function () {
             _this.delete();
         });
+        $('#btn-search-post').on('click', function () {
+            _this.searchPost();
+        });
     },
     save: function () {
-        var data = {
+        let data = {
             title: $('#title').val(),
             content: $('#content').val(),
             categoryName: $('#categoryName').val()
@@ -33,13 +36,13 @@ var post = {
     },
 
     update: function () {
-        var data = {
+        let data = {
             title: $('#title').val(),
             content: $('#content').val(),
             categoryName: $('#categoryName').val()
         };
 
-        var id = $('#id').val();
+        let id = $('#id').val();
 
         $.ajax({
             type: 'PATCH',
@@ -55,7 +58,7 @@ var post = {
         });
     },
     delete: function () {
-        var id = $('#id').val();
+        let id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
@@ -69,9 +72,22 @@ var post = {
             alert(JSON.stringify(error));
         });
     },
+    searchPost: function () {
+        let type = $('#type').val();
+        let keyword = $('#keyword').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/search?type=' + type + '&keyword=' + keyword
+        }).done(
+            function () {
+                window.location.href = '/search?type=' + type + '&keyword=' + keyword;
+            }
+        );
+    },
 }
 
-var category = {
+let category = {
     init: function () {
         var _this = this;
         $('#btn-save-category').on('click', function () {

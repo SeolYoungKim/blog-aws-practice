@@ -177,7 +177,6 @@ public class PostService {
                     .map(ResponsePost::new)
                     .collect(Collectors.toList());
         }
-
     }
 
 }

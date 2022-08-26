@@ -50,4 +50,11 @@ public class PostApiController {
                            @AuthenticationPrincipal OAuth2User oAuth2User) throws Exception {
         return postService.deletePost(id, oAuth2User);
     }
+
+    @GetMapping("/search")
+    public List<ResponsePost> searchPost(@RequestParam("type") String type,
+                             @RequestParam("keyword") String keyword) {
+
+        return postService.searchPost(type, keyword);
+    }
 }
