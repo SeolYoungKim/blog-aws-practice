@@ -104,6 +104,7 @@ public class PostService {
     }
 
     // 페이지 개수 조회 TODO: 다른 사람도 로직을 잘 알아볼 수 있게 수정해보자..
+    // 페이지 개수를 조회하여 페이지 버튼을 동적으로 출력한다.
     @Transactional(readOnly = true)
     public List<Integer> getPageCount(PostSearch postSearch) {
         Integer totalPostNumber = postRepository.findAll().size();
@@ -113,7 +114,7 @@ public class PostService {
 
         return IntStream.range(1, pageCount + 1)
                 .boxed()
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());  // 결국 페이지 버튼을 동적으로 출력하기 위한 로직.
     }
 
     // 수정
@@ -165,5 +166,18 @@ public class PostService {
         }
     }
 
+    // 검색
+    public List<ResponsePost> searchPost(String type, String keyword) {
+        if (type.equals("title")) {
+            return postRepository.searchPostByTitle(keyword).stream()
+                    .map(ResponsePost::new)
+                    .collect(Collectors.toList());
+        } else {
+            return postRepository.searchPostByContent(keyword).stream()
+                    .map(ResponsePost::new)
+                    .collect(Collectors.toList());
+        }
+
+    }
 
 }

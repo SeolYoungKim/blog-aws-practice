@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import toyproject.blogawspractice.config.auth.LoginUser;
 import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.exception.NullPostException;
@@ -55,7 +56,7 @@ public class PostMvcController {
         return "read-post";
     }
 
-    // TODO: 어디서는 SessionUser, 어디서는 OAuth2User를 사용하고 있다. 테스트의 문제로 이렇게 사용하고 있지만, 획일화 할 필요성이 있어보인다. 어떻게 해야할까?
+    // TODO: 어디서는 SessionUser, 어디서는 OAuth2User를 사용하고 있다. 테스트의 문제로 이렇게 사용하고 있지만, 획일화 할 필요가 있을까?
     @GetMapping("/posts")
     public String getPostList(@ModelAttribute PostSearch postSearch, Model model,
                               @LoginUser SessionUser user) {
@@ -69,8 +70,8 @@ public class PostMvcController {
         model.addAttribute("postSearch", postSearch);
 
         model.addAttribute("pageCounts", pageCounts);
-        model.addAttribute("postPageUpperLimit", postSearch.getPage() + 2);
-        model.addAttribute("postPageLowerLimit", pageCounts.size() - 5);
+        model.addAttribute("postPageUpperLimit", postSearch.getPage() + 2);  // 특정 개수 이상은 버튼 노출 방식이 다름
+        model.addAttribute("postPageLowerLimit", pageCounts.size() - 5);  //
 
         return "read-post-list";
     }
@@ -84,5 +85,13 @@ public class PostMvcController {
         model.addAttribute("categoryList", categoryList);
 
         return "edit-post";
+    }
+
+    @GetMapping("/search")
+    public String searchPost(@RequestParam("type") String type,
+                             @RequestParam("keyword") String keyword) {
+        List<ResponsePost> postList = postService.searchPost(type, keyword);
+        
+        return "search-post";
     }
 }

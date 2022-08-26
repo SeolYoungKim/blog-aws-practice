@@ -25,7 +25,6 @@ public class PostApiController {
     @PostMapping("/write")
     public ResponsePost writePost(@Validated @RequestBody RequestAddPost requestAddPost,
                                   @AuthenticationPrincipal OAuth2User oAuth2User) throws NullUserException {
-        postService.sessionTest(oAuth2User);
         return postService.savePost(requestAddPost, oAuth2User);
     }
 

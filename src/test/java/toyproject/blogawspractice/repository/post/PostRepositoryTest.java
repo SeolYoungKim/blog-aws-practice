@@ -9,9 +9,7 @@ import toyproject.blogawspractice.domain.post.Post;
 import toyproject.blogawspractice.domain.user.Role;
 import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.exception.NullPostException;
-import toyproject.blogawspractice.repository.category.CategoryRepository;
 import toyproject.blogawspractice.repository.user.UserRepository;
-import toyproject.blogawspractice.service.PostService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 
 import java.util.List;
@@ -29,13 +27,7 @@ class PostRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private PostService postService;
-
+//
 //    @AfterEach
 //    void clear() {
 //        postRepository.deleteAllInBatch();
@@ -147,4 +139,51 @@ class PostRepositoryTest {
         System.out.println(">>>>>>>>>>>" + post.getModifiedDate());
     }
 
+    @DisplayName("title로 post를 검색하면 일치하는 post를 모두 찾는다.")
+    @Test
+    void searchPostByTitle() {
+        List<Post> posts = IntStream.range(1, 11)
+                .mapToObj(i -> Post.builder()
+                        .title("제목" + i)
+                        .content("내용" + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(posts);
+
+        Post post = Post.builder()
+                .title("히히히")
+                .content("내용")
+                .build();
+
+        postRepository.save(post);
+
+        List<Post> findPosts = postRepository.searchPostByTitle("제목");
+
+        assertThat(findPosts.size()).isEqualTo(10);
+    }
+
+    @DisplayName("content로 post를 검색하면 일치하는 post를 모두 찾는다.")
+    @Test
+    void searchPostByContent() {
+        List<Post> posts = IntStream.range(1, 11)
+                .mapToObj(i -> Post.builder()
+                        .title("제목" + i)
+                        .content("내용" + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(posts);
+
+        Post post = Post.builder()
+                .title("제목")
+                .content("하하하")
+                .build();
+
+        postRepository.save(post);
+
+        List<Post> findPosts = postRepository.searchPostByContent("내용");
+
+        assertThat(findPosts.size()).isEqualTo(10);
+    }
 }
