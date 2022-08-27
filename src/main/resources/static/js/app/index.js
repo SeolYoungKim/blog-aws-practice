@@ -89,7 +89,7 @@ let post = {
 
 let category = {
     init: function () {
-        var _this = this;
+        let _this = this;
         $('#btn-save-category').on('click', function () {
             _this.save_category();
         });
@@ -101,7 +101,7 @@ let category = {
         });
     },
     save_category: function () {
-        var data = {
+        let data = {
             name: $('#name').val()
         };
 
