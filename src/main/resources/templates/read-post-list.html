@@ -3,48 +3,48 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
-<div layout:fragment="content">
-    <h1>글 목록</h1>
-
-    <div class="col-md-12">
-        <div class="row">
-            <div class="sub-buttons">
+<div layout:fragment="content" class="container text-center">
+    <div class="row align-items-center">
+        <div class="row align-items-start">
+            <div class="col sub-buttons">
                 <a href="/" role="button" class="btn btn-secondary btn-left-space">홈으로</a>
                 <a href="/setting" role="button" class="btn btn-secondary btn-left-space">마이 페이지</a>
                 <a href="/logout" class="btn btn-secondary btn-left-space active" role="button">Logout</a>
             </div>
         </div>
-        <br>
-        <div class="row row-cols-2">
-            <div class="col">
-                <a href="/categories" role="button" class="btn btn-secondary">카테고리 목록</a>
-            </div>
-            <div class="col">
-                <div class="sub-buttons btn-space">
-                    <a href="/write" role="button" class="btn btn-primary btn-left-space">글 등록</a>
-                    <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button" class="btn btn-success btn-left-space">카테고리 추가</a>
+        <div class="container text-center">
+            <div class="buttons-3">
+                <div class="col main-buttons">
+                    <a href="/categories" role="button" class="btn btn-secondary">카테고리 목록</a>
+                </div>
+                <div class="col">
+                    <div class="sub-buttons">
+                        <a href="/write" role="button" class="btn btn-primary btn-left-space">글 등록</a>
+                        <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button" class="btn btn-success btn-left-space">카테고리 추가</a>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
     <br>
     <table class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
-            <th>게시글 번호</th>
-            <th>조회수</th>
+            <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
+            <th>조회수</th>
             <th>최종 수정일</th>
         </tr>
         </thead>
         <tbody id="tbody">
             <tr th:each="post : ${postList}">
                 <td th:text="${post.id}"></td>
-                <td th:text="${post.views}"></td>
                 <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
                 <td th:if="${post.userRole == 'ROLE_ADMIN'}" th:text="|${post.userName}(ADMIN)|"></td>
                 <td th:unless="${post.userRole == 'ROLE_ADMIN'}" th:text="${post.userName}"></td>
+                <td th:text="${post.views}"></td>
                 <td th:text="${post.modifiedDate}"></td>
             </tr>
         </tbody>
@@ -93,16 +93,18 @@
     </div>
 
     <div class="search-bar">
-        <form>
-            <label for="keyword">게시글 검색</label>
+        <form class="inputs">
+
+            <span class="material-icons">search</span>
             <input id="keyword" type="text" placeholder="검색어를 입력하세요">
 
-            <label for="type">검색 조건</label>
+            <span class="material-icons">menu</span>
             <select id="type">
                 <option value="title">제목</option>
                 <option value="content">내용</option>
             </select>
-            <button type="button" id="btn-search-post">검색</button>
+
+            <button type="button" class="btn btn-secondary" id="btn-search-post">검색</button>
         </form>
     </div>
 </div>

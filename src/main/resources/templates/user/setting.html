@@ -3,41 +3,45 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="container text-center">
 
     <h2 th:text="|${user.username}님의 개인 페이지입니다.|"></h2>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/" role="button" class="btn btn-info">홈으로</a>
+    <div class="row align-items-start">
+        <div class="buttons-3">
+            <div class="col">
+                <div class="main-buttons">
+                    <a href="/" role="button" class="btn btn-info">홈으로</a>
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
-                <a href="/categories" role="button" class="btn btn-secondary">카테고리 목록</a>
+            <div class="col">
+                <div class="sub-buttons">
+                    <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
+                    <a href="/categories" role="button" class="btn btn-secondary">카테고리 목록</a>
+                </div>
             </div>
         </div>
     </div>
-    <br>
-    <table class="table table-horizontal table-bordered">
-        <thead class="thead-strong">
-        <tr>
-            <th>닉네임</th>
-            <th>이메일 주소</th>
-            <th>권한</th>
-        </tr>
-        </thead>
-        <tbody id="tbody1">
-        <tr th:object="${user}">
-            <td th:text="*{username}"></td>
-            <td th:text="*{userEmail}"></td>
-            <td th:text="*{userRole}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <div>
+
+    <div class="row align-items-center">
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th>닉네임</th>
+                <th>이메일 주소</th>
+                <th>권한</th>
+            </tr>
+            </thead>
+            <tbody id="tbody1">
+            <tr th:object="${user}">
+                <td th:text="*{username}"></td>
+                <td th:text="*{userEmail}"></td>
+                <td th:text="*{userRole}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row align-items-end">
         <h4>작성한 글 목록</h4>
         <table class="table table-horizontal table-bordered">
             <thead class="thead-strong">

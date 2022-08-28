@@ -48,9 +48,11 @@ public class PostMvcController {
 
     @GetMapping("/post/{id}")
     public String readPost(@PathVariable Long id, Model model,
-                           @AuthenticationPrincipal OAuth2User oAuth2User) throws NullPostException {
+                           @AuthenticationPrincipal OAuth2User oAuth2User,
+                           @LoginUser SessionUser user) throws NullPostException {
         ResponsePost responsePost = postService.readPost(id, oAuth2User);
         model.addAttribute("post", responsePost);
+        model.addAttribute("user", user);
 
         return "read-post";
     }
