@@ -4,45 +4,45 @@
       layout:decorate="~{layouts/layout}">
 
 <div layout:fragment="content">
-    <h1>블로그 구현하기 Ver.1</h1>
-    <div class="col-md-12">
-        <div th:if="${userName == null}" class="row">
-            <div class="col-md-6">
-                <div th:text="|로그인 버튼을 눌러 서비스를 시작하세요!|"></div>
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
-                <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
-                <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
-            </div>
-        </div>
-        <div th:if="${userRole == 'GUEST'}" class="row">
-            <div class="col-md-6">
-                <div th:text="|인증이 필요한 계정입니다. 한번 더 로그인을 눌러, 인증을 해주세요.|"></div>
-            </div>
-        </div>
-        <div th:if="${userRole == 'GUEST'}" class="row">
-            <div class="col-md-6">
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
-                <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
-                <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
-            </div>
-        </div>
-        <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}" class="row">
-            <div class="col-md-6">
-                <div id="user" th:text="|${userName} 님 어서오세요!|"></div>
-                <div th:text="|ROLE: ${userRole}|"></div>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}" class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
-                <a href="/categories" role="button" class="btn btn-success">카테고리 목록</a>
-                <a href="/setting" role="button" class="btn btn-info">마이 페이지</a>
-            </div>
+    <div class="row">
+        <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}" class="logout">
+            <a href="/logout" class="btn btn-secondary active" role="button">Logout</a>
         </div>
     </div>
 
+    <div class="container text-center">
+        <h1> Board! </h1>
+
+        <div class="row align-items-start">
+
+            <div th:if="${userName == null}">
+                <div>
+                    <div th:text="|로그인 버튼을 눌러 서비스를 시작하세요!|"></div>
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
+                    <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
+                </div>
+            </div>
+            <div th:if="${userRole == 'GUEST'}">
+                <div >
+                    <div th:text="|인증이 필요한 계정입니다. 한번 더 로그인을 눌러, 인증을 해주세요.|"></div>
+                </div>
+            </div>
+            <div th:if="${userRole == 'GUEST'}">
+                <div>
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
+                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
+                    <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
+                </div>
+            </div>
+            <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}">
+                <div>
+                    <div id="user" th:text="|${userName} 님 어서오세요!|"></div>
+                </div>
+                <div>
+                    <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">버튼을 눌러 Board!를 시작하세요 😄</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

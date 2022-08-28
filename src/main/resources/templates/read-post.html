@@ -19,27 +19,17 @@
     <div th:object="${post}" class="col-md-12">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="id">게시글 번호</label>
-                <input type="text" class="form-control" id="id" th:field="*{id}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="views">조회수</label>
-                <input type="text" class="form-control" id="views" th:field="*{views}" readonly>
-            </div>
-            <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" th:field="*{title}" readonly>
             </div>
 
-            <div th:if="*{categoryName}" class="form-group">
-                <label for="categoryName">카테고리</label>
-                <input type="text" class="form-control" id="categoryName" th:field="*{categoryName}" readonly>
+            <div class="form-group">
+                <span th:text="|조회수:*{views}    |"></span>
+                <span th:if="*{categoryName != ''}" th:text="|카테고리:*{categoryName}    |"></span>
+                <span th:unless="*{categoryName != ''}" th:text="|카테고리:없음     |"></span>
+                <span th:text="|작성자:*{userName}     |"></span>
             </div>
 
-            <div class="form-group">
-                <label for="userName">작성자</label>
-                <input type="text" class="form-control" id="userName" th:field="*{userName}" readonly>
-            </div>
             <div class="form-group">
                 <label for="content">내용</label>
                 <textarea rows="15" class="form-control" id="content" th:field="*{content}" readonly></textarea>

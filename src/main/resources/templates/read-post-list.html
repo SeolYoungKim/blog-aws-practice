@@ -5,33 +5,25 @@
 
 <div layout:fragment="content">
     <h1>글 목록</h1>
-    <div>
-        <form>
-            <label for="keyword">게시글 검색</label>
-            <input id="keyword" type="text" placeholder="검색어를 입력하세요">
 
-            <label for="type">검색 조건</label>
-            <select id="type">
-                <option value="title">제목</option>
-                <option value="content">내용</option>
-            </select>
-            <button type="button" id="btn-search-post">검색</button>
-        </form>
-    </div>
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-6">
-                <a href="/" role="button" class="btn btn-info">홈으로</a>
-                <a href="/setting" role="button" class="btn btn-primary">마이 페이지</a>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+            <div class="sub-buttons">
+                <a href="/" role="button" class="btn btn-secondary btn-left-space">홈으로</a>
+                <a href="/setting" role="button" class="btn btn-secondary btn-left-space">마이 페이지</a>
+                <a href="/logout" class="btn btn-secondary btn-left-space active" role="button">Logout</a>
             </div>
         </div>
         <br>
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/write" role="button" class="btn btn-primary">글 등록</a>
+        <div class="row row-cols-2">
+            <div class="col">
                 <a href="/categories" role="button" class="btn btn-secondary">카테고리 목록</a>
-                <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
+            </div>
+            <div class="col">
+                <div class="sub-buttons btn-space">
+                    <a href="/write" role="button" class="btn btn-primary btn-left-space">글 등록</a>
+                    <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button" class="btn btn-success btn-left-space">카테고리 추가</a>
+                </div>
             </div>
         </div>
     </div>
@@ -98,6 +90,20 @@
             <a th:href="@{/posts(page=${postSearch.page + 1}, size=${postSearch.size})}"
                th:text="'>'" role="button" class="btn btn-info"></a>
         </span>
+    </div>
+
+    <div class="search-bar">
+        <form>
+            <label for="keyword">게시글 검색</label>
+            <input id="keyword" type="text" placeholder="검색어를 입력하세요">
+
+            <label for="type">검색 조건</label>
+            <select id="type">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <button type="button" id="btn-search-post">검색</button>
+        </form>
     </div>
 </div>
 
