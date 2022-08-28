@@ -32,9 +32,13 @@ public class CategoryMvcController {
 
     // 단건 조회
     @GetMapping("/category/{id}")
-    public String readCategory(@PathVariable Long id, Model model) throws Exception {
+    public String readCategory(@PathVariable Long id, Model model,
+                               @LoginUser SessionUser user) throws Exception {
+
         ResponseCategory responseCategory = categoryService.readCategory(id);
         model.addAttribute("category", responseCategory);
+        model.addAttribute("user", user);
+
         return "category/read-category";
     }
 

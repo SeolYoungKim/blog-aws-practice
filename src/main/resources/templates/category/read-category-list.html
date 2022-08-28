@@ -3,23 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="container text-center">
 
     <h1>카테고리 목록</h1>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
+    <div class="row align-items-start">
+
+        <div class="buttons-3">
+            <div class="main-buttons">
                 <a href="/" role="button" class="btn btn-info">홈으로</a>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
+
+            <div class="sub-buttons">
                 <a href="/write" role="button" class="btn btn-primary">글 등록</a>
                 <a href="/posts?page=1&size=5" role="button" class="btn btn-secondary">글 목록</a>
                 <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button" class="btn btn-success">카테고리 추가</a>
             </div>
         </div>
+
     </div>
     <br>
     <table class="table table-horizontal table-bordered">
