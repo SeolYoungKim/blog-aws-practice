@@ -30,10 +30,10 @@
                     <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
                 </div>
             </div>
-            <div th:if="${post.userName eq user.userName}" class="col">
+            <div th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" class="col">
                 <div class="sub-buttons">
-                    <a th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary">글 수정</a>
-                    <button type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
+                    <a th:if="${post.userName eq user.userName}" th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary">글 수정</a>
+                    <button th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
                 </div>
             </div>
         </div>

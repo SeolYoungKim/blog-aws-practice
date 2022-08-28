@@ -1,6 +1,7 @@
 package toyproject.blogawspractice.web.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import toyproject.blogawspractice.web.response.post.ResponsePost;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class PostMvcController {
