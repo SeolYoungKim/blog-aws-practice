@@ -3,6 +3,10 @@
 ## 소개
 RestAPI(js) + Serverside template(Thymeleaf)를 혼용하여 구현한 게시판입니다.
 
+### 1. Spring security와 OAuth2.0을 이용한 로그인 구현
+![](readmeImg/gif/1.login.gif)
+
+
 ### 현재 완료된 작업
 - 글 및 카테고리 관련 CRUD
 - OAuth2.0을 이용한 구글, 네이버, 카카오 로그인 구현
