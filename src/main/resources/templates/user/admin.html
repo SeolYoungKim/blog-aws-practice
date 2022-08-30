@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="container text-center">
+    <div class="row align-items-center">
+        <form>
+            <table class="table table-horizontal table-bordered">
+                <thead class="thead-strong">
+                <tr>
+                    <th>유저 이름</th>
+                    <th>이메일 주소</th>
+                    <th>유저 역할</th>
+                    <th>역할 수정</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="user : ${userList}">
+                    <td th:text="${user.userName}"></td>
+                    <td name="userEmail" th:text="${user.userEmail}"></td>
+                    <input type="hidden" id="userEmail" th:value="${user.userEmail}">
+                    <td th:text="${user.userRole}"></td>
+                    <td>
+                        <select class="form-select" id="userRole" name="userRole">
+                            <option value="">변경할 역할을 선택하세요</option>
+                            <option value="ADMIN">관리자</option>
+                            <option value="USER">일반 사용자</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </form>
+        <div class="sub-buttons">
+            <button type="button" class="btn btn-primary" id="btn-role-update">역할 변경</button>
+        </div>
+    </div>
+</div>
+</html>
+

@@ -119,11 +119,11 @@ let category = {
         });
     },
     update_category: function () {
-        var data = {
+        let data = {
             name: $('#name').val()
         };
 
-        var id = $('#id').val();
+        let id = $('#id').val();
 
         $.ajax({
             type: 'PATCH',
@@ -139,7 +139,7 @@ let category = {
         });
     },
     delete_category: function () {
-        var id = $('#id').val();
+        let id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
@@ -155,5 +155,54 @@ let category = {
     },
 }
 
+let users = {
+    init: function () {
+        let _this = this;
+        $('#btn-role-update').on('click', function () {
+            _this.role_update();
+        });
+    },
+
+    role_update: function () {
+        // 아래 형태의 JSON을 만드는건데, 여러 data를 받아와서 처리할 순 없을까? JSON List를 만들수 없나?
+        let data = {
+            userEmail: $('#userEmail').val(),
+            userRole: $('#userRole').val(),
+        };
+
+        // 순수 javascript
+        // let userEmails = document.getElementsByName("userEmail");
+        // let userRoles = document.getElementsByName("userRole");
+
+        // JQuery
+        let userEmails = $('[name="userEmail"]');
+        let userRoles = $('[name="userRole"] :selected');
+
+        let dataList = [];
+
+        for (let i = 0; i < userEmails.length; i++) {
+            dataList.push({
+                userEmail: userEmails[i].innerText,
+                userRole: userRoles[i].innerText,
+            },)
+        }
+
+        $.ajax({
+            type: 'PATCH',
+            url: '/user/edit',
+            // dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(dataList)
+        }).done(function () {
+            alert('유저 역할이 수정되었습니다.');
+            window.location.href = '/admin';
+        }).fail(function (error) {
+            console.log(dataList);
+            alert(JSON.stringify(error));
+        });
+    },
+}
+
 post.init();
 category.init();
+users.init();

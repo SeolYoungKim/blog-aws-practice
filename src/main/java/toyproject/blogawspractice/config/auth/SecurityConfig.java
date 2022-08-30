@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                        .antMatchers("/category/add", "/category/**/edit", "/category/**/delete").hasRole(Role.ADMIN.name())
+                        .antMatchers("/category/add", "/category/**/edit", "/category/**/delete", "/admin").hasRole(Role.ADMIN.name())
                         .antMatchers("/categories", "/category/**", "/write", "/api/**", "/post/**", "/posts", "/setting").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .logout(logout -> logout

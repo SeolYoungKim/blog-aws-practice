@@ -68,4 +68,9 @@ public class User extends BaseTimeEntity {
     public void addPost(Post post) {
         postList.add(post);
     }
+
+    // Role만 업데이트
+    public void updateRole(Role role) {
+        this.userRole = role;
+    }
 }

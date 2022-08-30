@@ -1,8 +1,13 @@
 package toyproject.blogawspractice.web.controller.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import toyproject.blogawspractice.service.UserService;
+import toyproject.blogawspractice.web.request.user.RequestEditUser;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -10,5 +15,8 @@ public class UserApiController {
 
     private final UserService userService;
 
-    //TODO: 유저 정보 수정 관련 컨트롤러 추후 구현 > 이후 테스트 코드 작성
+    @PatchMapping("/user/edit")
+    public void roleUpdate(@RequestBody List<RequestEditUser> editUsers) {
+        userService.editRole(editUsers);
+    }
 }
