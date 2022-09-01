@@ -18,12 +18,14 @@ import toyproject.blogawspractice.repository.user.UserRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
+    public static final String DEFAULT_ADMIN_EMAIL = "nasur4da@gmail.com";
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
@@ -67,12 +69,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         String userEmail = attributes.getUserEmail();
+        Optional<User> userFromEmail = userRepository.getUserFromEmail(userEmail);
         User user;
 
         // 내 구글 계정만 ADMIN 권한 부여
-        if (userEmail.equals("nasur4da@gmail.com")) {
-            user = userRepository.getUserFromEmail(userEmail)
-                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.ADMIN))
+        if (userEmail.equals(DEFAULT_ADMIN_EMAIL)) {
+            user = userFromEmail
+                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture()))
                     .orElse(User.builder()
                             .username(attributes.getUserName())
                             .userEmail(userEmail)
@@ -80,11 +83,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                             .userRole(Role.ADMIN)
                             .build());
 
-        } else {
-            user = userRepository.getUserFromEmail(userEmail)
-                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER))
-                    .orElse(attributes.toEntity());
+            return userRepository.save(user);
 
+        }
+
+        if (userFromEmail.isPresent()) {
+            User findUser = userFromEmail.get();
+            Role userRole = findUser.getUserRole();
+
+            if (userRole.equals(Role.ADMIN) || userRole.equals(Role.USER)) {
+                user = findUser.update(attributes.getUserName(), attributes.getUserPicture());
+            } else {
+                user = findUser.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER);
+            }
+
+        } else {
+            user = attributes.toEntity();
         }
 
         return userRepository.save(user);

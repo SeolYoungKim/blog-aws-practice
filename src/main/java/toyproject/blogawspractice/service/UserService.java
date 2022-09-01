@@ -21,6 +21,7 @@ import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User
 @Service
 public class UserService {
 
+    public static final String ADMIN_EMAIL = "nasur4da@gmail.com";
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -33,6 +34,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<ResponseUser> findAllUser() {
         return userRepository.findAll().stream()
+                .filter(user -> !user.getUserEmail().equals(ADMIN_EMAIL))
                 .map(ResponseUser::new)
                 .collect(Collectors.toList());
     }
