@@ -170,20 +170,21 @@ let users = {
             userRole: $('#userRole').val(),
         };
 
-        // 순수 javascript
-        // let userEmails = document.getElementsByName("userEmail");
-        // let userRoles = document.getElementsByName("userRole");
+        // 순수 javascript -> vanilla javascript
+        let userEmails = document.getElementsByName("userEmail");
+        let userRoles = document.getElementsByName("userRole");
 
-        // JQuery
-        let userEmails = $('[name="userEmail"]');
-        let userRoles = $('[name="userRole"] :selected');
+
+        // JQuery -> 무거우니 사용을 지양한다.
+        // let userEmails = $('[name="userEmail"]');
+        // let userRoles = $('[name="userRole"] :selected');
 
         let dataList = [];
 
         for (let i = 0; i < userEmails.length; i++) {
             dataList.push({
                 userEmail: userEmails[i].innerText,
-                userRole: userRoles[i].innerText,
+                userRole: userRoles[i].options[userRoles[i].selectedIndex].innerText,
             },)
         }
 

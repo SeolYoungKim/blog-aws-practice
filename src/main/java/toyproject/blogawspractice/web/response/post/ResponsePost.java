@@ -37,6 +37,7 @@ public class ResponsePost {
         this.userName = post.getUser().getUsername();
         this.userRole = post.getUser().getRoleKey();
 
+        //TODO : 포맷을 변경
         this.modifiedDate = post.getModifiedDate();
         this.createdDate = post.getCreatedDate();
     }
