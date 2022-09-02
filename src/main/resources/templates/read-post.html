@@ -32,7 +32,8 @@
             </div>
             <div th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" class="col">
                 <div class="sub-buttons">
-                    <a th:if="${post.userName eq user.userName}" th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary">글 수정</a>
+                    <a th:if="${post.userName eq user.userName}" th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary"
+                       style="margin-right: 5px;">글 수정</a>
                     <button th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
                 </div>
             </div>

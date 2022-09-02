@@ -6,6 +6,8 @@
 <div layout:fragment="content">
     <div class="row">
         <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}" class="logout">
+            <a th:if="${userRole == 'ADMIN'}" href="/admin" class="btn btn-secondary active" role="button"
+               style="margin-right: 5px;">관리자</a>
             <a href="/logout" class="btn btn-secondary active" role="button">Logout</a>
         </div>
     </div>
