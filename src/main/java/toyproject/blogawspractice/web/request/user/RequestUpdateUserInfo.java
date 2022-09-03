@@ -4,14 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class RequestEditUser {
+@Getter
+@Setter
+public class RequestUpdateUserInfo {
+    private String userName;
     private String userEmail;
-    private String userRole;
 
     @Builder
-    public RequestEditUser(String userEmail, String userRole) {
+    public RequestUpdateUserInfo(String userEmail, String userName) {
+        this.userName = userName;
         this.userEmail = userEmail;
-        this.userRole = userRole;
     }
 }

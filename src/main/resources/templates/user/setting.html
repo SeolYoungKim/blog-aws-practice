@@ -3,9 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
-<div layout:fragment="content" class="container text-center">
+<div layout:fragment="content" class="container">
 
-    <h2 th:text="|${user.userName}님의 개인 페이지입니다.|"></h2>
+    <h2 class="text-center" th:text="|${user.userName}님의 개인 페이지입니다.|"></h2>
     <div class="row align-items-start">
         <div class="buttons-3">
             <div class="col">
@@ -40,6 +40,10 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="sub-buttons">
+        <a href="/setting/edit">정보 수정</a>
     </div>
 
     <div class="row align-items-end">

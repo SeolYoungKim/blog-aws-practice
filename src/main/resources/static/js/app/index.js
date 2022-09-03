@@ -161,6 +161,9 @@ let users = {
         $('#btn-role-update').on('click', function () {
             _this.role_update();
         });
+        $('#btn-userInfo-update').on('click', function () {
+            _this.userInfo_update();
+        });
     },
 
     role_update: function () {
@@ -199,6 +202,26 @@ let users = {
             window.location.href = '/admin';
         }).fail(function (error) {
             console.log(dataList);
+            alert(JSON.stringify(error));
+        });
+    },
+
+    userInfo_update: function () {
+        let data = {
+            userName: $('#userName').val(),
+            userEmail: $('#userEmail').val(),
+        };
+
+        $.ajax({
+            type: 'PATCH',
+            url: '/setting/edit',
+            // dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            alert('정보가 수정되었습니다.');
+            window.location.href = '/setting';
+        }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },

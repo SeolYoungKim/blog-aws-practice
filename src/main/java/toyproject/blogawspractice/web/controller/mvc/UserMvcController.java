@@ -32,4 +32,12 @@ public class UserMvcController {
 
         return "user/admin";
     }
+
+    @GetMapping("/setting/edit")
+    public String editUser(@AuthenticationPrincipal OAuth2User oAuth2User, Model model) {
+        ResponseUser user = userService.readUser(oAuth2User);
+        model.addAttribute("user", user);
+
+        return "user/edit";
+    }
 }

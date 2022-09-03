@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" class="container">
+    <h2 class="text-center" th:text="|개인정보 수정 페이지|"></h2>
+    <form>
+        <div class="row align-items-center" th:object="${user}">
+            <label for="userName">닉네임</label>
+            <input id="userName" th:field="*{userName}">
+            <input id="userEmail" type="hidden" th:field="*{userEmail}">
+        </div>
+    </form>
+    <div class="sub-buttons">
+        <a href="/setting" role="button" class="btn btn-secondary"
+           style="margin-right: 5px;">취소</a>
+        <button type="button" class="btn btn-primary" id="btn-userInfo-update">수정 완료</button>
+    </div>
+</div>
+</html>

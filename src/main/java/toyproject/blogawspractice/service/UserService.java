@@ -9,6 +9,7 @@ import toyproject.blogawspractice.domain.user.User;
 import toyproject.blogawspractice.exception.NullUserException;
 import toyproject.blogawspractice.repository.user.UserRepository;
 import toyproject.blogawspractice.web.request.user.RequestEditUser;
+import toyproject.blogawspractice.web.request.user.RequestUpdateUserInfo;
 import toyproject.blogawspractice.web.response.user.ResponseUser;
 
 import java.util.List;
@@ -52,6 +53,11 @@ public class UserService {
                 .map(adminUser -> getUserByEmail(adminUser.getUserEmail()))
                 .forEach(user -> user.updateRole(Role.USER));
 
+    }
+
+    public void editUserInfo(RequestUpdateUserInfo editUser) {
+        User user = getUserByEmail(editUser.getUserEmail());
+        user.updateUserInfo(editUser.getUserName());
     }
 
     private User getUserByEmail(String email) {

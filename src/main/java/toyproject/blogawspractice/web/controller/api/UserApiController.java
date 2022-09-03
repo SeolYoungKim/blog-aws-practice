@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import toyproject.blogawspractice.service.UserService;
 import toyproject.blogawspractice.web.request.user.RequestEditUser;
+import toyproject.blogawspractice.web.request.user.RequestUpdateUserInfo;
 
 import java.util.List;
 
@@ -18,5 +19,10 @@ public class UserApiController {
     @PatchMapping("/user/edit")
     public void roleUpdate(@RequestBody List<RequestEditUser> editUsers) {
         userService.editRole(editUsers);
+    }
+
+    @PatchMapping("/setting/edit")
+    public void userInfoUpdate(@RequestBody RequestUpdateUserInfo editUser) {
+        userService.editUserInfo(editUser);
     }
 }

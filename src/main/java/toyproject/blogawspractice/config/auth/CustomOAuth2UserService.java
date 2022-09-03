@@ -75,7 +75,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 내 구글 계정만 ADMIN 권한 부여
         if (userEmail.equals(DEFAULT_ADMIN_EMAIL)) {
             user = userFromEmail
-                    .map(entity -> entity.update(attributes.getUserName(), attributes.getUserPicture()))
+                    .map(entity -> entity.update(attributes.getUserPicture()))
                     .orElse(User.builder()
                             .username(attributes.getUserName())
                             .userEmail(userEmail)
@@ -92,9 +92,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             Role userRole = findUser.getUserRole();
 
             if (userRole.equals(Role.ADMIN) || userRole.equals(Role.USER)) {
-                user = findUser.update(attributes.getUserName(), attributes.getUserPicture());
+                user = findUser.update(attributes.getUserPicture());
             } else {
-                user = findUser.update(attributes.getUserName(), attributes.getUserPicture(), Role.USER);
+                user = findUser.update(attributes.getUserPicture(), Role.USER);
             }
 
         } else {
