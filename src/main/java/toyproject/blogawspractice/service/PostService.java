@@ -60,11 +60,6 @@ public class PostService {
         return new ResponsePost(post);
     }
 
-    public void sessionTest(OAuth2User user) {
-        String email = findEmail(user);
-        log.info("현재 유저의 email 주소 : {}", email);
-    }
-
     // 단건 조회 - for edit
     @Transactional(readOnly = true)
     public ResponsePost readPost(Long id) throws NullPostException {
