@@ -92,7 +92,8 @@ public class PostService {
             post.updateViews(1);
         }
 
-        return new ResponsePost(post);
+        // content -> HTML로 파싱 (마크다운 파싱)
+        return new ResponsePost(post).markdownToHtml();
     }
 
     // 여러건 조회 및 페이징

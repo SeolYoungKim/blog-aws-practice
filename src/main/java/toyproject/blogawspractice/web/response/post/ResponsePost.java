@@ -41,4 +41,10 @@ public class ResponsePost {
         this.modifiedDate = post.getModifiedDate();
         this.createdDate = post.getCreatedDate();
     }
+
+    public ResponsePost markdownToHtml() {
+        this.content = MarkdownParser.markdownToHTML(this.content);
+
+        return this;
+    }
 }

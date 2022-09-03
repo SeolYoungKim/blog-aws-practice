@@ -90,4 +90,12 @@ public class PostMvcController {
         return "edit-post";
     }
 
+    @GetMapping("/write/test")
+    public String testWrite(Model model) {
+        List<ResponseCategory> categoryList = categoryService.getCategoryList();
+        ResponsePost responsePost = new ResponsePost();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("post", responsePost); // 뷰에서 사용하기 위해 빈 객체 넘겨줌,.
+        return "write-post-test";
+    }
 }

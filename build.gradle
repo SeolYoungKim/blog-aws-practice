@@ -37,6 +37,9 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
+	// markdown parser
+	implementation 'com.atlassian.commonmark:commonmark:0.17.0'
+
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
