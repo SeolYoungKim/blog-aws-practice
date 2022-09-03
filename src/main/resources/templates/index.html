@@ -5,8 +5,8 @@
 
 <div layout:fragment="content">
     <div class="row">
-        <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}" class="logout">
-            <a th:if="${userRole == 'ADMIN'}" href="/admin" class="btn btn-secondary active" role="button"
+        <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자')}" class="logout">
+            <a th:if="${userRole == '관리자'}" href="/admin" class="btn btn-secondary active" role="button"
                style="margin-right: 5px;">관리자</a>
             <a href="/logout" class="btn btn-secondary active" role="button">Logout</a>
         </div>
@@ -26,19 +26,19 @@
                     <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
                 </div>
             </div>
-            <div th:if="${userRole == 'GUEST'}">
+            <div th:if="${userRole == '게스트 유저'}">
                 <div >
                     <div th:text="|인증이 필요한 계정입니다. 한번 더 로그인을 눌러, 인증을 해주세요.|"></div>
                 </div>
             </div>
-            <div th:if="${userRole == 'GUEST'}">
+            <div th:if="${userRole == '게스트 유저'}">
                 <div>
-                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 로그인</a>
-                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 로그인</a>
-                    <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 로그인</a>
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">구글 인증</a>
+                    <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">네이버 인증</a>
+                    <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 인증</a>
                 </div>
             </div>
-            <div th:if="${(userRole  == 'USER') or (userRole == 'ADMIN')}">
+            <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자')}">
                 <div>
                     <div id="user" th:text="|${userName} 님 어서오세요!|"></div>
                 </div>

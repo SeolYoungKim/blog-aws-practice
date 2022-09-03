@@ -14,9 +14,11 @@ import toyproject.blogawspractice.config.auth.dto.SessionUser;
 import toyproject.blogawspractice.exception.NullPostException;
 import toyproject.blogawspractice.service.CategoryService;
 import toyproject.blogawspractice.service.PostService;
+import toyproject.blogawspractice.service.UserService;
 import toyproject.blogawspractice.web.request.post.PostSearch;
 import toyproject.blogawspractice.web.response.category.ResponseCategory;
 import toyproject.blogawspractice.web.response.post.ResponsePost;
+import toyproject.blogawspractice.web.response.user.ResponseUser;
 
 import java.util.List;
 
@@ -27,13 +29,16 @@ public class PostMvcController {
 
     private final PostService postService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @GetMapping("/")
-    public String home(Model model, @LoginUser SessionUser user) {  // 로그인 화면 구성 - 로그인 버튼
+    public String home(Model model,
+                       @AuthenticationPrincipal OAuth2User oAuth2User) {  // 로그인 화면 구성 - 로그인 버튼
 
-        if (user != null) {
-            model.addAttribute("userName", user.getUserName());
-            model.addAttribute("userRole", user.getUserRole());
+        if (oAuth2User != null) {
+            ResponseUser responseUser = userService.readUser(oAuth2User);
+            model.addAttribute("userName", responseUser.getUserName());
+            model.addAttribute("userRole", responseUser.getUserRole());
         }
 
         return "index";
