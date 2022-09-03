@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toyproject.blogawspractice.domain.post.Post;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @Getter
@@ -21,8 +21,8 @@ public class ResponsePost {
     private String userName;
     private String userRole;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private String createdDate;
+    private String modifiedDate;
 
     //TODO: 정녕 이렇게밖에 할 수 없는가? 필드가 더 많아진다면 유지보수가 어려워질 것 같다.. 분명 방법이 있을 것.
     // 아니면, Response 객체도 목적에 따라 좀 나눌까... 고민해보자.
@@ -37,9 +37,9 @@ public class ResponsePost {
         this.userName = post.getUser().getUsername();
         this.userRole = post.getUser().getRoleKey();
 
-        //TODO : 포맷을 변경
-        this.modifiedDate = post.getModifiedDate();
-        this.createdDate = post.getCreatedDate();
+        this.modifiedDate = post.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.createdDate = post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
     }
 
     public ResponsePost markdownToHtml() {
