@@ -70,3 +70,9 @@ RestAPI(js) + Serverside template(Thymeleaf)를 혼용하여 구현한 게시판
 ![](readmeImg/gif/6.닉네임_변경.gif)
 - 유저의 이름(닉네임)은 oauth2 로그인 이름을 기본적으로 사용합니다.
 - 유저의 이름(닉네임)은 변경이 가능하도록 하였으며, 변경 사항은 oauth2 로그인 계정 정보에 영향을 미치지 않습니다.
+
+### 9. 마크다운 작성 기능
+![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/970f8f0a-2613-495b-b524-67e7ea5f1f0b/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220904%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220904T061505Z&X-Amz-Expires=86400&X-Amz-Signature=a8da5be8e685cae58e1aa0626b84ef382a9aeb0e34aa699d34d1f060c64f22f7&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/144ef4e9-3d97-4eab-9b05-90621c16440e/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220904%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220904T061438Z&X-Amz-Expires=86400&X-Amz-Signature=1b6d405ebb55a53ca22540601a962f8d2a2862c169f8bdd1e76d2729ed2da965&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+- 작성 및 수정화면은 첫번째 사진과 같이 텍스트 형식으로 작성 및 수정됩니다.
+- 글을 조회할 시, 글의 내용(텍스트)을 마크다운 형식으로 파싱하여 출력합니다.
