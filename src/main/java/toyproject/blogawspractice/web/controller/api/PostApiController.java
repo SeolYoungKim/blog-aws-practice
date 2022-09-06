@@ -52,9 +52,8 @@ public class PostApiController {
     }
 
     @GetMapping("/search")
-    public List<ResponsePost> searchPost(@RequestParam("type") String type,
-                             @RequestParam("keyword") String keyword) {
+    public List<ResponsePost> searchPost(@ModelAttribute PostSearch postSearch) {
 
-        return postService.searchPost(type, keyword);
+        return postService.searchPost(postSearch);
     }
 }

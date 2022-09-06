@@ -8,6 +8,6 @@ import java.util.List;
 public interface PostRepositoryCustom {
     List<Post> getPostList(PostSearch postSearch);
 
-    List<Post> searchPostByTitle(String title);
-    List<Post> searchPostByContent(String content);
+    List<Post> searchPostByTitle(PostSearch postSearch);
+    List<Post> searchPostByContent(PostSearch postSearch);
 }

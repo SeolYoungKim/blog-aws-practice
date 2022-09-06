@@ -19,23 +19,30 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public List<Post> getPostList(PostSearch postSearch) {
         return jpaQueryFactory.selectFrom(post)
-                .limit(postSearch.getSize())
+                .limit(postSearch.getSize() == null? 5 : postSearch.getSize())
                 .offset(postSearch.getOffset())
                 .orderBy(post.id.desc())
                 .fetch();
     }
 
+    //TODO: 여기에 PostSearch 를 사용할 경우, 페이징도 동시에 할 수 있다.
     @Override
-    public List<Post> searchPostByTitle(String title) {
+    public List<Post> searchPostByTitle(PostSearch postSearch) {
         return jpaQueryFactory.selectFrom(post)
-                .where(post.title.contains(title))
+                .where(post.title.contains(postSearch.getKeyword() == null? "" : postSearch.getKeyword()))
+                .limit(postSearch.getSize() == null? 5 : postSearch.getSize())
+                .offset(postSearch.getOffset())
+                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 
     @Override
-    public List<Post> searchPostByContent(String content) {
+    public List<Post> searchPostByContent(PostSearch postSearch) {
         return jpaQueryFactory.selectFrom(post)
-                .where(post.content.contains(content))
+                .where(post.content.contains(postSearch.getKeyword() == null? "" : postSearch.getKeyword()))
+                .limit(postSearch.getSize() == null? 5 : postSearch.getSize())
+                .offset(postSearch.getOffset())
+                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 }

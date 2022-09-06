@@ -158,9 +158,14 @@ class PostRepositoryTest {
 
         postRepository.save(post);
 
-        List<Post> findPosts = postRepository.searchPostByTitle("제목");
+        PostSearch postSearch = PostSearch.builder()
+                .keyword("제목")
+                .type("title")
+                .build();
 
-        assertThat(findPosts.size()).isEqualTo(10);
+        List<Post> findPosts = postRepository.searchPostByTitle(postSearch);
+
+        assertThat(findPosts.size()).isEqualTo(5);  // 페이징 처리가 돼버려서 5개다
     }
 
     @DisplayName("content로 post를 검색하면 일치하는 post를 모두 찾는다.")
@@ -182,8 +187,13 @@ class PostRepositoryTest {
 
         postRepository.save(post);
 
-        List<Post> findPosts = postRepository.searchPostByContent("내용");
+        PostSearch postSearch = PostSearch.builder()
+                .keyword("내용")
+                .type("content")
+                .build();
 
-        assertThat(findPosts.size()).isEqualTo(10);
+        List<Post> findPosts = postRepository.searchPostByContent(postSearch);
+
+        assertThat(findPosts.size()).isEqualTo(5);
     }
 }

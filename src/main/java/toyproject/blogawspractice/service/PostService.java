@@ -163,13 +163,13 @@ public class PostService {
     }
 
     // 검색
-    public List<ResponsePost> searchPost(String type, String keyword) {
-        if (type.equals("title")) {
-            return postRepository.searchPostByTitle(keyword).stream()
+    public List<ResponsePost> searchPost(PostSearch postSearch) {
+        if (postSearch.getType().equals("title")) {
+            return postRepository.searchPostByTitle(postSearch).stream()
                     .map(ResponsePost::new)
                     .collect(Collectors.toList());
         } else {
-            return postRepository.searchPostByContent(keyword).stream()
+            return postRepository.searchPostByContent(postSearch).stream()
                     .map(ResponsePost::new)
                     .collect(Collectors.toList());
         }

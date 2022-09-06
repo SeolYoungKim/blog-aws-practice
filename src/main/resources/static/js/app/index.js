@@ -78,7 +78,7 @@ let post = {
 
         $.ajax({
             type: 'GET',
-            url: '/search?type=' + type + '&keyword=' + keyword
+            url: '/search?page=1&size=5&type=' + type + '&keyword=' + keyword
         }).done(
             function () {
                 window.location.href = '/search?type=' + type + '&keyword=' + keyword;
