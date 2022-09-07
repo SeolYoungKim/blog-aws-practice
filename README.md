@@ -1,6 +1,9 @@
 # blog-aws-practice
 RestAPI(js) + Serverside template(Thymeleaf)를 혼용하여 구현한 게시판입니다.
 
+### 포트폴리오를 따로 마련하였습니다.
+[저의 포트폴리오 입니다. 해당 링크에 방문해주세요. 감사합니다!](https://kimsy8979.notion.site/Portfolio-90d896f5071e4df98104352384b703b3)
+
 ### 현재 완료된 작업
 - 글 및 카테고리 관련 CRUD
 - 카테고리 기능 구현
