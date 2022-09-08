@@ -1,6 +1,7 @@
 package toyproject.blogawspractice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,6 +81,8 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.title").value("제목"))
                 .andExpect(jsonPath("$.content").value("내용"))
                 .andDo(print());
+
+        Assertions.assertThat(postRepository.findAll().size()).isEqualTo(1);  // db에 저장됨을 확인
     }
 
     @DisplayName("글 단건 조회")
