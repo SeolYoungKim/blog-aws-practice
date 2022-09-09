@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
+import static toyproject.blogawspractice.service.admin.DefaultAdmin.DEFAULT_ADMIN_EMAIL;
 
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
-    public static final String ADMIN_EMAIL = "nasur4da@gmail.com";
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
@@ -35,18 +35,18 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<ResponseUser> findAllUser() {
         return userRepository.findAll().stream()
-                .filter(user -> !user.getUserEmail().equals(ADMIN_EMAIL))
+                .filter(user -> !user.getUserEmail().equals(DEFAULT_ADMIN_EMAIL))
                 .map(ResponseUser::new)
                 .collect(Collectors.toList());
     }
 
     public void editRole(List<RequestEditUser> editUsers) {
 
+        // TODO: 해당 로직은 어쩌면 if문이 더 간결할지도 모르겠다. 고민을 해보자.
         editUsers.stream()
                 .filter(editUser -> editUser.getUserRole().equals("관리자"))
                 .map(adminUser -> getUserByEmail(adminUser.getUserEmail()))
                 .forEach(adminUser -> adminUser.updateRole(Role.ADMIN));
-
 
         editUsers.stream()
                 .filter(editUser -> editUser.getUserRole().equals("일반 사용자"))
