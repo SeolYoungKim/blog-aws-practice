@@ -17,7 +17,7 @@
                 <a href="/write" role="button" class="btn btn-primary" style="margin-right: 5px;">글 등록</a>
                 <a href="/posts?page=1&size=5" role="button" class="btn btn-secondary"
                    style="margin-right: 5px;">글 목록</a>
-                <a th:if="${user.userRole == 'ADMIN'}" href="/category/add" role="button"
+                <a th:if="${(user.userRole == 'ADMIN') or (user.userRole == 'MANAGER')}" href="/category/add" role="button"
                    class="btn btn-success" style="margin-right: 5px;">카테고리 추가</a>
             </div>
         </div>

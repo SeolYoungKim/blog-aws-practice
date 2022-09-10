@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import toyproject.blogawspractice.domain.user.Role;
+
+import static toyproject.blogawspractice.domain.user.Role.*;
 
 @RequiredArgsConstructor
 @Configuration
@@ -23,8 +24,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                        .antMatchers("/category/add", "/category/**/edit", "/category/**/delete", "/admin").hasRole(Role.ADMIN.name())
-                        .antMatchers("/categories", "/category/**", "/write", "/api/**", "/post/**", "/posts", "/setting").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .antMatchers("/admin").hasRole(ADMIN.name())  //TODO: 접근 권한에 대한 Test 작성
+                        .antMatchers("/category/add", "/category/**/edit", "/category/**/delete").hasAnyRole(ADMIN.name(), MANAGER.name())
+                        .antMatchers("/categories", "/category/**", "/write", "/api/**", "/post/**", "/posts", "/setting").hasAnyRole(USER.name(), MANAGER.name(), ADMIN.name())
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))

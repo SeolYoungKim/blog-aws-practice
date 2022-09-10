@@ -62,7 +62,7 @@ class UserApiControllerTest {
 
         List<RequestEditUser> requestEditUsers = IntStream.range(1, 4)
                 .mapToObj(i -> RequestEditUser.builder()
-                        .userRole("관리자")
+                        .userRole("부관리자")
                         .userEmail("email" + i)
                         .build())
                 .collect(Collectors.toList());
@@ -76,9 +76,9 @@ class UserApiControllerTest {
                 .andDo(print());
 
 
-        assertThat(userRepository.getUserFromEmail("email1").get().getUserRole()).isEqualTo(Role.ADMIN);
-        assertThat(userRepository.getUserFromEmail("email2").get().getUserRole()).isEqualTo(Role.ADMIN);
-        assertThat(userRepository.getUserFromEmail("email3").get().getUserRole()).isEqualTo(Role.ADMIN);
+        assertThat(userRepository.getUserFromEmail("email1").get().getUserRole()).isEqualTo(Role.MANAGER);
+        assertThat(userRepository.getUserFromEmail("email2").get().getUserRole()).isEqualTo(Role.MANAGER);
+        assertThat(userRepository.getUserFromEmail("email3").get().getUserRole()).isEqualTo(Role.MANAGER);
     }
 
     @DisplayName("유저의 정보를 수정할 수 있다.")

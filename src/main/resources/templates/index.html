@@ -5,7 +5,7 @@
 
 <div layout:fragment="content">
     <div class="row">
-        <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자')}" class="logout">
+        <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자') or (userRole == '부관리자')}" class="logout">
             <a th:if="${userRole == '관리자'}" href="/admin" class="btn btn-secondary active" role="button"
                style="margin-right: 5px;">관리자</a>
             <a href="/logout" class="btn btn-secondary active" role="button">Logout</a>
@@ -38,7 +38,7 @@
                     <a href="/oauth2/authorization/kakao" class="btn btn-info active" role="button">카카오 인증</a>
                 </div>
             </div>
-            <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자')}">
+            <div th:if="${(userRole  == '일반 사용자') or (userRole == '관리자') or (userRole == '부관리자')}">
                 <div>
                     <div id="user" th:text="|${userName} 님 어서오세요!|"></div>
                 </div>

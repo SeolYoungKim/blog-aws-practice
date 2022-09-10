@@ -44,9 +44,9 @@ public class UserService {
 
         // TODO: 해당 로직은 어쩌면 if문이 더 간결할지도 모르겠다. 고민을 해보자.
         editUsers.stream()
-                .filter(editUser -> editUser.getUserRole().equals("관리자"))
+                .filter(editUser -> editUser.getUserRole().equals("부관리자"))
                 .map(adminUser -> getUserByEmail(adminUser.getUserEmail()))
-                .forEach(adminUser -> adminUser.updateRole(Role.ADMIN));
+                .forEach(adminUser -> adminUser.updateRole(Role.MANAGER));
 
         editUsers.stream()
                 .filter(editUser -> editUser.getUserRole().equals("일반 사용자"))

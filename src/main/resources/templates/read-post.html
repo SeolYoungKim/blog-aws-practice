@@ -31,11 +31,11 @@
                     <a href="/posts?page=1&size=5" role="button" class="btn btn-primary">글 목록</a>
                 </div>
             </div>
-            <div th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" class="col">
+            <div th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN') or (user.userRole eq 'MANAGER')}" class="col">
                 <div class="sub-buttons">
                     <a th:if="${post.userName eq user.userName}" th:href="@{/post/{id}/edit(id=${post.id})}" role="button" class="btn btn-primary"
                        style="margin-right: 5px;">글 수정</a>
-                    <button th:if="${(post.userName eq user.userName) or (user.userRole eq 'ADMIN')}" type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
+                    <button th:if="${(post.userName == user.userName) or (user.userRole == 'MANAGER') or (user.userRole == 'ADMIN')}" type="button" class="btn btn-danger" id="btn-delete-post">글 삭제</button>
                 </div>
             </div>
         </div>

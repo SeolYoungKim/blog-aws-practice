@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static toyproject.blogawspractice.DefaultAdminInfo.DEFAULT_ADMIN_EMAIL;
+import static toyproject.blogawspractice.domain.user.Role.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -81,7 +82,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                             .username(attributes.getUserName())
                             .userEmail(userEmail)
                             .userPicture(attributes.getUserPicture())
-                            .userRole(Role.ADMIN)
+                            .userRole(ADMIN)
                             .build());
 
             return userRepository.save(user);
@@ -92,10 +93,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             User findUser = userFromEmail.get();
             Role userRole = findUser.getUserRole();
 
-            if (userRole.equals(Role.ADMIN) || userRole.equals(Role.USER)) {
+            if (userRole.equals(MANAGER) || userRole.equals(USER)) {
                 user = findUser.update(attributes.getUserPicture());
             } else {
-                user = findUser.update(attributes.getUserPicture(), Role.USER);
+                user = findUser.update(attributes.getUserPicture(), USER);
             }
 
         } else {
