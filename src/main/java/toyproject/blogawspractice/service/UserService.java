@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
-import static toyproject.blogawspractice.service.admin.DefaultAdmin.DEFAULT_ADMIN_EMAIL;
+import static toyproject.blogawspractice.DefaultAdminInfo.DEFAULT_ADMIN_EMAIL;
 
 @Transactional
 @RequiredArgsConstructor

@@ -1,5 +1,5 @@
-package toyproject.blogawspractice.service.admin;
+package toyproject.blogawspractice;
 
-public class DefaultAdmin {
+public class DefaultAdminInfo {
     public static final String DEFAULT_ADMIN_EMAIL = "nasur4da@gmail.com";
 }

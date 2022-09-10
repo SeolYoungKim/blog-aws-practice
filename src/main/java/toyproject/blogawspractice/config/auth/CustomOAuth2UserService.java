@@ -20,12 +20,13 @@ import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.Optional;
 
+import static toyproject.blogawspractice.DefaultAdminInfo.DEFAULT_ADMIN_EMAIL;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    public static final String DEFAULT_ADMIN_EMAIL = "nasur4da@gmail.com";
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
