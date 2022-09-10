@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
+import static toyproject.blogawspractice.domain.user.Role.*;
 
 @Slf4j
 @Service
@@ -154,7 +155,9 @@ public class PostService {
         User findUser = userRepository.getUserFromEmail(email)
                 .orElseThrow(NullUserException::new);
 
-        if ((post.getUser() == findUser) || (findUser.getUserRole().equals(Role.ADMIN))) {
+        Role userRole = findUser.getUserRole();
+
+        if ((post.getUser() == findUser) || (userRole.equals(ADMIN)) || (userRole.equals(MANAGER))) {
             postRepository.delete(post);
             return id;
         } else {

@@ -1,13 +1,13 @@
 package toyproject.blogawspractice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import toyproject.blogawspractice.domain.post.Post;
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -82,7 +83,7 @@ class PostApiControllerTest {
                 .andExpect(jsonPath("$.content").value("내용"))
                 .andDo(print());
 
-        Assertions.assertThat(postRepository.findAll().size()).isEqualTo(1);  // db에 저장됨을 확인
+        assertThat(postRepository.findAll().size()).isEqualTo(1);  // db에 저장됨을 확인
     }
 
     @DisplayName("글 단건 조회")
@@ -223,9 +224,62 @@ class PostApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("글 삭제")
+    @DisplayName("글 수정은 타인이 할 수 없다.")
     @Test
-    void delete_post() throws Exception {
+    void edit_post_other() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .user(user)
+                .build();
+
+        postRepository.save(post);
+
+        User another = User.builder()
+                .userRole(Role.ADMIN)
+                .userPicture("another")
+                .userEmail("another")
+                .username("another")
+                .build();
+
+        userRepository.save(another);
+
+        RequestEditPost editPost = RequestEditPost.builder()
+                .title("TITLE")
+                .content("CONTENT")
+                .categoryName("")
+                .build();
+
+        mockMvc.perform(patch("/api/post/{id}/edit", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(editPost))
+                        .with(oauth2Login().attributes(attrs -> attrs.put("email", "another"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+
+//        assertThatThrownBy(() -> mockMvc.perform(patch("/api/post/{id}/edit", post.getId())
+//                .contentType(APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(editPost))
+//                .with(oauth2Login().attributes(attrs -> attrs.put("email", "another"))
+//                        .authorities(new SimpleGrantedAuthority("ROLE_ADMIN")))))
+//                .hasCause(new IllegalAccessException("잘못된 접근입니다."));
+
+    }
+
+    @DisplayName("글 삭제는 본인만 할 수 있다.")
+    @Test
+    void delete_post_owner() throws Exception {
 
         User user = User.builder()
                 .userRole(Role.USER)
@@ -247,6 +301,86 @@ class PostApiControllerTest {
         mockMvc.perform(delete("/post/{id}/delete", post.getId())
                         .contentType(APPLICATION_JSON)
                         .with(oauth2Login().attributes(attrs -> attrs.put("email", "email"))))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(post.getId())))
+                .andDo(print());
+    }
+
+    @DisplayName("타인의 글 삭제는 관리자도 할 수 있다.")
+    @Test
+    void delete_post_admin() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .user(user)
+                .build();
+
+        postRepository.save(post);
+
+        User admin = User.builder()
+                .userRole(Role.ADMIN)
+                .userPicture("pic")
+                .userEmail("admin")
+                .username("kim")
+                .build();
+
+        userRepository.save(admin);
+
+
+        mockMvc.perform(delete("/post/{id}/delete", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .with(oauth2Login().attributes(attr -> attr.put("email", "admin"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))  // 내가 처리 로직을 이메일 주소를 받아서 처리하기 때문에 통과했지, 기본적으로 부여되는 권한은 USER이다.. 조심하자.
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(post.getId())))
+                .andDo(print());
+    }
+
+    @DisplayName("타인의 글 삭제는 부관리자도 할 수 있다.")
+    @Test
+    void delete_post_manager() throws Exception {
+
+        User user = User.builder()
+                .userRole(Role.USER)
+                .userPicture("picture")
+                .userEmail("email")
+                .username("kim")
+                .build();
+
+        userRepository.save(user);
+
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .user(user)
+                .build();
+
+        postRepository.save(post);
+
+        User admin = User.builder()
+                .userRole(Role.MANAGER)
+                .userPicture("pic")
+                .userEmail("manager")
+                .username("kim")
+                .build();
+
+        userRepository.save(admin);
+
+
+        mockMvc.perform(delete("/post/{id}/delete", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .with(oauth2Login().attributes(attr -> attr.put("email", "manager"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_MANAGER"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(post.getId())))
                 .andDo(print());

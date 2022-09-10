@@ -44,4 +44,13 @@ public class ExceptionController {
 
     }
 
+    // IllegalAccessException
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(IllegalAccessException.class)
+    public ErrorResult illegalAccessExceptionHandler(IllegalAccessException e) {
+        return ErrorResult.builder()
+                .code("404")
+                .message(e.getMessage())
+                .build();
+    }
 }

@@ -29,7 +29,7 @@ public class CategoryApiController {
 
     // 삭제
     @DeleteMapping("/category/{id}/delete")
-    public Long deleteCategory(@PathVariable Long id) throws Exception {
+    public Long deleteCategory(@PathVariable Long id) {
         return categoryService.deleteCategory(id);
     }
 }

@@ -45,7 +45,7 @@ public class CategoryService {
     }
 
     // 수정
-    public ResponseCategory editCategory(Long id, RequestEditCategory editCategory) throws Exception {
+    public ResponseCategory editCategory(Long id, RequestEditCategory editCategory) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(NullCategoryException::new);
 
@@ -55,7 +55,7 @@ public class CategoryService {
     }
 
     // 삭제
-    public Long deleteCategory(Long id) throws Exception {
+    public Long deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(NullCategoryException::new);
 
