@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
+import static toyproject.blogawspractice.repository.user.logic.FindEmailByOAuth2User.findEmail;
 import static toyproject.blogawspractice.domain.user.Role.*;
 
 @Slf4j
@@ -39,12 +39,11 @@ public class PostService {
 
     // TODO:Id를 반환하는 게 나을까? 객체를 반환하는 게 나을까? 저장 후 바로 글이 조회가 되어야 하는데, 이럴 때 어떻게 해야할지 고민?
     // 저장
-    public ResponsePost savePost(RequestAddPost requestAddPost, OAuth2User user) throws NullUserException {
+    public ResponsePost savePost(RequestAddPost requestAddPost, OAuth2User oAuth2User) throws NullUserException {
         Post post = postRepository.save(requestAddPost.toEntity());
         String categoryName = requestAddPost.getCategoryName();
 
-        String email = findEmail(user);
-        User findUser = userRepository.getUserFromEmail(email)
+        User findUser = userRepository.getUserFromOAuth2User(oAuth2User)
                 .orElseThrow(NullUserException::new);
 
         if (!categoryName.isEmpty()) {
@@ -115,15 +114,13 @@ public class PostService {
     }
 
     // 수정
-    public ResponsePost editPost(Long id, RequestEditPost editPost, OAuth2User user) throws Exception {
+    public ResponsePost editPost(Long id, RequestEditPost editPost, OAuth2User oAuth2User) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(NullPostException::new);
 
         String categoryName = editPost.getCategoryName();
 
-        String email = findEmail(user);
-
-        User findUser = userRepository.getUserFromEmail(email)
+        User findUser = userRepository.getUserFromOAuth2User(oAuth2User)
                 .orElseThrow(NullUserException::new);
 
         if (post.getUser() == findUser) {
@@ -146,13 +143,11 @@ public class PostService {
     }
 
     // 삭제
-    public Long deletePost(Long id, OAuth2User user) throws Exception {
+    public Long deletePost(Long id, OAuth2User oAuth2User) throws Exception {
         Post post = postRepository.findById(id)
                 .orElseThrow(NullPostException::new);
 
-        String email = findEmail(user);
-
-        User findUser = userRepository.getUserFromEmail(email)
+        User findUser = userRepository.getUserFromOAuth2User(oAuth2User)
                 .orElseThrow(NullUserException::new);
 
         Role userRole = findUser.getUserRole();

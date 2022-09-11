@@ -15,7 +15,7 @@ import toyproject.blogawspractice.web.response.user.ResponseUser;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static toyproject.blogawspractice.config.auth.logic.FindEmailByOAuth2User.findEmail;
+import static toyproject.blogawspractice.repository.user.logic.FindEmailByOAuth2User.findEmail;
 import static toyproject.blogawspractice.DefaultAdminInfo.DEFAULT_ADMIN_EMAIL;
 
 @Transactional

@@ -1,4 +1,4 @@
-package toyproject.blogawspractice.config.auth.logic;
+package toyproject.blogawspractice.repository.user.logic;
 
 import lombok.Getter;
 import org.springframework.security.oauth2.core.user.OAuth2User;
