@@ -42,7 +42,7 @@ public class UserService {
 
     public void editRole(List<RequestEditUser> editUsers) {
 
-        // TODO: 해당 로직은 어쩌면 if문이 더 간결할지도 모르겠다. 고민을 해보자.
+        // TODO: 해당 로직은 어쩌면 for문이 더 간결하려나..? 고민 해보자.
         editUsers.stream()
                 .filter(editUser -> editUser.getUserRole().equals("부관리자"))
                 .map(adminUser -> getUserByEmail(adminUser.getUserEmail()))

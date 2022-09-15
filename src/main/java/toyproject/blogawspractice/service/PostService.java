@@ -82,7 +82,7 @@ public class PostService {
             post.initViews();
         }
 
-        // TODO: 나중에는 단시간 내에 너무 많은 조회수가 발생하면 어떻게 처리해야 할까 고민해보자.
+        // TODO: 나중에는 단시간 내에 너무 많은 조회수가 발생하면 어떻게 처리해야 할까 고민해보자. -> 세션에 읽은 여부에 대한 값을 올린다.
         if (!postUserEmail.equals(oAuth2UserEmail)) {
             post.updateViews(1);
         }

@@ -78,7 +78,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if (userEmail.equals(DEFAULT_ADMIN_EMAIL)) {
             user = userFromEmail
                     .map(entity -> entity.update(attributes.getUserPicture()))
-                    .orElse(User.builder()
+                    .orElseGet(() -> User.builder()
                             .username(attributes.getUserName())
                             .userEmail(userEmail)
                             .userPicture(attributes.getUserPicture())
