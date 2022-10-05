@@ -31,10 +31,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Build docs
-        id: adocbuild
-        uses: equinor/asciidoctor-action@main
-
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew  # gradlew에 대한 권한설정 명령어 (runner에서 실행)
         shell: bash

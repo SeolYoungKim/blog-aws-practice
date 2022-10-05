@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static toyproject.blogawspractice.domain.user.Role.*;
@@ -32,8 +33,8 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/"))
                 .oauth2Login(oauth2Login -> oauth2Login
                         .userInfoEndpoint()  // userInfoEndpoint로 부터 최종 사용자의 사용자 속성을 가져옴
-                        .userService(customOAuth2UserService)); // 소셜 로그인 성공 -> 후속 조치를 진행할 UserService 인터페이스 구현체를 등록 (사용자 정보 처리)
-                                                                // UserEndpoint에 대한 위임 전략임
+                        .userService(customOAuth2UserService))
+                .addFilterBefore(new TestFilter(), OAuth2LoginAuthenticationFilter.class);
 
         return http.build();
     }
